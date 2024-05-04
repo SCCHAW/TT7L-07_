@@ -7,7 +7,14 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Maximum stock,get it now.
+        </p>
+
+        <h1>Welcome to Teasure Hunt</h1>
+        <h2>Limited time only...</h2>
+
+        <p>
+          All you need is here! Low price, good quality only in here! Register Now !
         </p>
         <a
           className="App-link"
