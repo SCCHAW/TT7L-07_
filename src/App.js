@@ -6,23 +6,19 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Maximum stock,get it now.
-        </p>
-
+        
         <h1>Welcome to Teasure Hunt</h1>
-        <h2>Limited time only...</h2>
+        <h3>Hunt for low price</h3>
 
-        <p>
-          All you need is here! Low price, good quality only in here! Register Now !
-        </p>
+        <p>Register now!</p>
+
         <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Sign in Here
         </a>
       </header>
     </div>
