@@ -102,7 +102,7 @@ const IndexLoginScreen = () => {
             <p style={{ marginRight: "5px" }}>Forget password?</p>
             <span>|</span>
             <p style={{ marginLeft: "5px" }}>
-              Don't have an account? <Link to="/signup">Sign Up</Link>
+               Don't have an account? <Link to="/signup">Sign Up</Link>
             </p>
           </div>
         </div>

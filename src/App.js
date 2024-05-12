@@ -10,16 +10,11 @@ function App() {
         <h1>Welcome to Teasure Hunt</h1>
         <h3>Hunt for low price</h3>
 
-        <p>Register now!</p>
+        <p>Register now!
+        Don't have an account? <Link to="/signup">Sign Up</Link>
+        Already have an account?  <Link to="/">Sign in</Link>
+        </p>
 
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Sign in Here
-        </a>
       </header>
     </div>
   );
