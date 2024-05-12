@@ -11,8 +11,7 @@ function App() {
         <h3>Hunt for low price</h3>
 
         <p>Register now!
-        Don't have an account? <Link to="/signup">Sign Up</Link>
-        Already have an account?  <Link to="/">Sign in</Link>
+
         </p>
 
       </header>
