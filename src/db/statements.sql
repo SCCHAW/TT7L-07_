@@ -20,5 +20,7 @@ WHERE name = "Niclolas"
 
 SELECT * FROM users
 
+DROP TABLE users
+
 
 

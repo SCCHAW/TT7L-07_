@@ -40,4 +40,4 @@ const getUsers = (id) => {
     console.log(rows);
 }
 
-getUsers()
+
