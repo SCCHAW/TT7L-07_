@@ -7,16 +7,18 @@ CREATE TABLE users (
 INSERT INTO users (name , age)
 VALUES 
        ("Tobi", 22),
-       ("Niclolas",24)
+       ("Niclolas",24),
+       ("Peggy",70),
+       ("Ruby",56)
 
 UPDATE users
 SET name = "Tobias"
 WHERE name = "Tobi"
 
 DELETE FROM users
-WHERE name = "Hans"
+WHERE name = "Niclolas"
 
-SELECT name FROM users
-WHERE id = 2
+SELECT * FROM users
 
-DROP TABLE users
+
+
