@@ -84,7 +84,7 @@
     justify-content: center;
     align-items: center;
     width: 220px;
-    height: 59;
+    height: 59px;
     color: #fff;
     background: #af772c;
     border-radius: 50px;
@@ -94,6 +94,6 @@
 }
 
 .gray{
-    background: #af772c;
-    color: #d4ccc2;
+    background: #eaeaea;
+    color:#676767;
 }
