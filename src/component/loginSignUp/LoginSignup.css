@@ -55,8 +55,9 @@
     height: 50px;
     width: 400px;
     background: transparent;
-    border: none;
-    outline: none;
+    border: #0f0f07;
+    border-radius: 20px;
+    outline: invert;
     color: #0f0f07;
     font-size: 19px;
 }
@@ -69,6 +70,18 @@
 }
 
 .forgot-password span{
+    color: #865008;
+    cursor: pointer;
+}
+
+.gohomepg{
+    padding-left: 62px;
+    margin-top: 27px;
+    color: #3a3125;
+    font-size: 18px;
+}
+
+.gohomepg span{
     color: #865008;
     cursor: pointer;
 }

@@ -34,6 +34,7 @@ const LoginSignup = () => {
                 </div>
 
                 <div className="forgot-password">Forgot password? <span>Click Here!</span></div>
+                <div className="gohomepg">Home? <span>Return Here</span></div>
         
                 <div className="submit-container">
                 <div className={action === "Login" ?"submit gray" : "submit"}  onClick={()=> {setAction("Sign Up")}}> Sign Up</div>
