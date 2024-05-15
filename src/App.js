@@ -1,24 +1,9 @@
+import React, { useState } from "react";
+import { RootNavigation } from "./navigation/root-stacks";
 
-import './App.css';
-import LoginSignup from './component/loginSignUp/LoginSignup';
-import homepage from './component/pages/homepage';
-import { BrowserRouter as Router , Route , Switch } from 'react-router-dom';
 
-function App() {
-  return (
-    <Router>
-      <div className='App'>
-     <LoginSignup/>
-     <div className='home'>
-      <switch>
-        <Route exact path="/home">
-          <homepage/>
-        </Route>
-      </switch>
-     </div>
-    </div>
-    </Router>
-  );
-}
+const App = () => {
+  return (<RootNavigation />);
+};
 
 export default App;

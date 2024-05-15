@@ -3,7 +3,7 @@ import "./homepage.css"
 
 import web_logo from '../assets/Assets/treasure-hunt-logo1.jpeg'
 
-const homepage = () => {
+const Homepage = () => {
 
     return (
         <div className="homepage">
@@ -15,4 +15,4 @@ const homepage = () => {
 
 }
 
-export default homepage
+export default Homepage
