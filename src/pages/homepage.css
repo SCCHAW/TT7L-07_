@@ -1,0 +1,9 @@
+.homepageBar{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    background: #dad86e;
+    padding-bottom: 30px;
+    width: 800px;
+}

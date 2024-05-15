@@ -30,10 +30,11 @@ const LoginSignup = () => {
                 <div className="input">
                     <img src={password_icon} alt=""/>
                     <input type="password" placeholder="Password"/>
+                    <input type="password"placeholder="Confirm Password"/>
                 </div>
 
                 <div className="forgot-password">Forgot password? <span>Click Here!</span></div>
-                
+        
                 <div className="submit-container">
                 <div className={action === "Login" ?"submit gray" : "submit"}  onClick={()=> {setAction("Sign Up")}}> Sign Up</div>
                     <div className={action === "Sign Up"?"submit gray":"submit"} onClick={()=> {setAction("Login")}}>Login</div>
