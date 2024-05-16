@@ -14,13 +14,14 @@ const LoginSignup = () => {
     // A fuction for login 
     const handleLogin = () => {
      
-        const loginSuccessful = true; // Replace this with your actual logic
+        const loginSuccessful = true;// Replace this with your actual logic
 
         if (loginSuccessful) {
             navigate("/home");// if can login, then it will navigate to the home screen
         }
 
-    };
+    };  
+
 
     return (
         <div className="container">
