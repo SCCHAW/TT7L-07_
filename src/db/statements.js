@@ -4,23 +4,25 @@ const createTable = () => {
     const sql = `
         CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        age INTEGER
+        firstname TEXT NOT NULL,
+        lastname TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE ,
+        password  TEXT NOT NULL,
     )
     ` 
     db.prepare(sql).run()
 }
 
-const insertTable = (name, age ) => {
+const insertTable = (firstname, lastname, email, password ) => {
     const sql = `
-         INSERT INTO users (name, age)
-         VALUES (?,?)
+         INSERT INTO users (firstname, lastname, email, password)
+         VALUES (?,?,?,?)
     `
-    db.prepare(sql).run(name, age)
+    db.prepare(sql).run(firstname, lastname, email, password)
 
 }
 
-insertTable('Hans',42)
+insertTable()
 
 const getAllUsers = () => {
     const sql = `

@@ -11,14 +11,15 @@ const LoginSignup = () => {
 
     const [action , setAction] = useState("Sign up");
 
-    // Function to handle login
+    // A fuction for login 
     const handleLogin = () => {
      
         const loginSuccessful = true; // Replace this with your actual logic
 
         if (loginSuccessful) {
-            navigate("/home"); // Navigate to the home screen
+            navigate("/home");// if can login, then it will navigate to the home screen
         }
+
     };
 
     return (
@@ -27,12 +28,15 @@ const LoginSignup = () => {
                 <div className="text">{action}</div>
                 <div className="underline"></div>
             </div>
-
             <div className="inputs">
                 <div className="input">
                     <img src={user_icon} alt=""/>
-                    <input type="text" placeholder="Name"/>
+                    <input type="text" placeholder="Firstname"/>
                 </div>
+            </div>
+                <div className="input">
+                    <img src={user_icon} alt=""/>
+                    <input type="text" placeholder="Lastname"/>
             </div>
             <div className="input">
                 <img src={email_icon} alt=""/>
@@ -40,8 +44,7 @@ const LoginSignup = () => {
             </div>
             <div className="input">
                 <img src={password_icon} alt=""/>
-                <input type="password" placeholder="Password"/>
-                <input type="password"placeholder="Confirm Password"/>
+                <input type="password" placeholder="Password"/>               
             </div>
 
             <div className="forgot-password">Forgot password? <span>Click Here!</span></div>
