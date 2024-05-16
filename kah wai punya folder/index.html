@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreasureHunt - Price Comparison</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>TreasureHunt</h1>
+            <p class="subtitle">Find the Best Deals Online</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <form id="priceComparisonForm" class="price-form">
+            <div class="input-group">
+                <label for="product1">Product 1:</label>
+                <input type="text" id="product1" placeholder="Enter product name" required>
+                <input type="number" id="price1" step="0.01" placeholder="Price" required>
+            </div>
+            <div class="input-group">
+                <label for="product2">Product 2:</label>
+                <input type="text" id="product2" placeholder="Enter product name" required>
+                <input type="number" id="price2" step="0.01" placeholder="Price" required>
+            </div>
+            <button type="button" onclick="comparePrices()">Compare Prices</button>
+        </form>
+        <div id="comparisonResult" class="comparison-result"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 TreasureHunt. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
