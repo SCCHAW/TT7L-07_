@@ -17,7 +17,7 @@ const LoginSignup = () => {
         const loginSuccessful = true;// Replace this with your actual logic
 
         if (loginSuccessful) {
-            navigate("/home");// if can login, then it will navigate to the home screen
+            navigate("/home");// if can login, then it will navigate to the home screen,this home screen is not finish yet , thi one is temporarily only
         }
 
     };  
