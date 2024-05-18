@@ -3,7 +3,7 @@
     flex-direction: column;
     margin: auto;
     margin-top: 200px;
-    background: #dad86e;
+    background: #85C1E9;
     padding-bottom: 30px;
     width: 800px;
 }
@@ -18,7 +18,7 @@
 }
 
 .text{
-    color: #db6447;
+    color: #DC7633;
     font-size: 48px;
     font-weight: 700;
 }
@@ -43,7 +43,7 @@
     margin: auto;
     width: 600px;
     height: 100px;
-    background: #ddda29;
+    background: #D6EAF8;
     border-radius: 6px;
 }
 
@@ -66,8 +66,11 @@
 .forgot-password{
     padding-left: 62px;
     margin-top: 27px;
-    color: #d38620;
+    color: #000000;
     font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    display:flex;
 }
 
 .forgot-password span{
@@ -75,14 +78,17 @@
     cursor: pointer;
 }
 
-.gohomepg{
+.navigatepage{
     padding-left: 62px;
     margin-top: 27px;
-    color: #3a3125;
+    color: #000000;
     font-size: 18px;
+    justify-content: center;
+    align-items: center;
+    display:flex;
 }
 
-.gohomepg span{
+.navigatepage span{
     color: #865008;
     cursor: pointer;
 }
