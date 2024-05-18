@@ -25,8 +25,45 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
     const [action, setAction] = useState("Sign up");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [errorMessage, setErrorMessage] = useState("");
+    
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        console.log("login") 
+        if( !loginSignupFormData.email || !loginSignupFormData.password
+         ){
+            setErrorMessage("Email and password are required")
+            setDialogFormError(true)
+            return
+            
+            
+
+            try {
+                const user = {
+                     email: loginSignupFormData.email,
+              password: loginSignupFormData.password,
+                  };
+    
+                  console.log(user)
+                  const response = await axios.post("http://localhost:3000/api/login",user,{
+                    headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                    if (response.data)
+                        {
+                            setDialogFormSuccess(true)
+                            setLoginSignupFormData(initialFormState);
+                            setAction("login");
+    
+                        }
+            } catch (error) {
+                console.log(error.response.data)
+                setErrorMessage(error.response.data)
+                setDialogFormError(true)
+            }
+            
+        }
+
         const loginSuccessful = true; // Replace this with your actual logic
 
         if (loginSuccessful) {
@@ -165,9 +202,9 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             bodyBackgroundColor="white"
             bodyTextColor="black"
             bodyHeight="200px"
-            headerText="Error"
+            headerText="Congrats"
         >
-          <h2>{"Registration successful"}</h2>
+          <h2>{"Regirstation Success"}</h2>
         </ReactDialogBox>
 
       )}
