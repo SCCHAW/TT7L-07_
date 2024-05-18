@@ -25,9 +25,52 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
     const [action, setAction] = useState("Login");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [errorMessage, setErrorMessage] = useState("");
+<<<<<<< HEAD
     const [successMessage, setSuccessMessage] = useState("");
 
     const handleLogin = async () => {
+=======
+    
+
+    const handleLogin = async () => {
+        console.log("login") 
+        if( !loginSignupFormData.email || !loginSignupFormData.password
+         ){
+            setErrorMessage("Email and password are required")
+            setDialogFormError(true)
+            return
+            
+            
+
+            try {
+                const user = {
+                     email: loginSignupFormData.email,
+              password: loginSignupFormData.password,
+                  };
+    
+                  console.log(user)
+                  const response = await axios.post("http://localhost:3000/api/login",user,{
+                    headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                    if (response.data)
+                        {
+                            setDialogFormSuccess(true)
+                            setLoginSignupFormData(initialFormState);
+                            setAction("login");
+    
+                        }
+            } catch (error) {
+                console.log(error.response.data)
+                setErrorMessage(error.response.data)
+                setDialogFormError(true)
+            }
+            
+        }
+
+        const loginSuccessful = true; // Replace this with your actual logic
+>>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
 
         console.log("login") 
         if(!loginSignupFormData.email || !loginSignupFormData.password
@@ -225,7 +268,11 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             bodyHeight="200px"
             headerText="Congrats"
         >
+<<<<<<< HEAD
           <h2>{successMessage.message || successMessage}</h2>
+=======
+          <h2>{"Regirstation Success"}</h2>
+>>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
         </ReactDialogBox>
 
       )}
