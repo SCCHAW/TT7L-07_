@@ -25,9 +25,183 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
     const [action, setAction] = useState("Login");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [errorMessage, setErrorMessage] = useState("");
+<<<<<<< HEAD
     const [successMessage, setSuccessMessage] = useState("");
 
     const handleLogin = async () => {
+
+        console.log("login") 
+        if(!loginSignupFormData.email || !loginSignupFormData.password
+         ){
+            setErrorMessage("All fields are required")
+            setDialogFormError(true)
+            return
+         } 
+         if (!emailRegex.test(loginSignupFormData.email)) {
+            setErrorMessage("Invalid email format.");
+            setDialogFormError(true);
+            return;
+          }
+        //   if (!user.loginSignupFormData.email ) {
+        //     setErrorMessage("Invalid Email and Password");
+        //     setDialogFormError(true);
+        //     return;
+        //   }
+
+        //   if (!passwordMatch.loginSignupFormData.password ) {
+        //     setErrorMessage("Invalid Email and Password");
+        //     setDialogFormError(true);
+        //     return;
+        //   }
+
+        try {
+            const user = {
+          email: loginSignupFormData.email,
+          password: loginSignupFormData.password,
+              };
+
+              console.log(user)
+              const response = await axios.post("http://localhost:3000/api/login",user,{
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+                if (response.data)
+                    {
+                        console.log(response.data)
+                        if (response.data.firstName === "Admin"){
+                            setSuccessMessage("Admin Successfully Login")
+                        setDialogFormSuccess(true)
+                            navigate("/admin")
+                            
+                        } else{
+                            setSuccessMessage("Login Successful")
+                        setDialogFormSuccess(true)
+                        navigate("/home");
+                        }
+                        
+                    }
+        } catch (error) {
+            console.log(error.response.data)
+            setErrorMessage(error.response.data)
+            setDialogFormError(true)
+=======
+<<<<<<< HEAD
+    const [successMessage, setSuccessMessage] = useState("");
+
+    const handleLogin = async () => {
+=======
+    
+
+    const handleLogin = async () => {
+        console.log("login") 
+        if( !loginSignupFormData.email || !loginSignupFormData.password
+         ){
+            setErrorMessage("Email and password are required")
+            setDialogFormError(true)
+            return
+            
+            
+
+            try {
+                const user = {
+                     email: loginSignupFormData.email,
+              password: loginSignupFormData.password,
+                  };
+    
+                  console.log(user)
+                  const response = await axios.post("http://localhost:3000/api/login",user,{
+                    headers: {
+                        "Content-Type": "application/json",
+                      },
+                    })
+                    if (response.data)
+                        {
+                            setDialogFormSuccess(true)
+                            setLoginSignupFormData(initialFormState);
+                            setAction("login");
+    
+                        }
+            } catch (error) {
+                console.log(error.response.data)
+                setErrorMessage(error.response.data)
+                setDialogFormError(true)
+            }
+            
+>>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
+        }
+        
+    
+        
+       
+    };
+
+    const handleToggleAction = () => {
+        setAction((prevAction) => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
+    };
+
+    const handleSignup =async () => {
+        console.log("signup") 
+        if(!loginSignupFormData.firstName || !loginSignupFormData.lastName || !loginSignupFormData.email || !loginSignupFormData.password
+            || !loginSignupFormData.confirmPassword
+         ){
+            setErrorMessage("All fields are required")
+            setDialogFormError(true)
+            return
+         } 
+         if (!emailRegex.test(loginSignupFormData.email)) {
+            setErrorMessage("Invalid email format.");
+            setDialogFormError(true);
+            return;
+          }
+          if (loginSignupFormData.password !== loginSignupFormData.confirmPassword) {
+            setErrorMessage("Passwords do not match.");
+            setDialogFormError(true);
+            return;
+          }
+
+        try {
+            const user = {
+                firstName: loginSignupFormData.firstName,
+          lastName: loginSignupFormData.lastName,
+          email: loginSignupFormData.email,
+          password: loginSignupFormData.password,
+              };
+
+              console.log(user)
+              const response = await axios.post("http://localhost:3000/api/users",user,{
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+                if (response.data)
+                    {
+                        setDialogFormSuccess(true)
+                        setSuccessMessage("Registration Successful")
+                        setLoginSignupFormData(initialFormState);
+                        setAction("Login");
+
+                    }
+        } catch (error) {
+            console.log(error.response.data)
+            setErrorMessage(error.response.data)
+            setDialogFormError(true)
+        }
+        
+    }
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+       setLoginSignupFormData({
+          ...loginSignupFormData,
+          [name]: value,
+        });
+      };
+
+<<<<<<< HEAD
+=======
+        const loginSuccessful = true; // Replace this with your actual logic
+>>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
 
         console.log("login") 
         if(!loginSignupFormData.email || !loginSignupFormData.password
@@ -153,6 +327,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         });
       };
 
+>>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
 
 
     return (
@@ -225,7 +400,15 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             bodyHeight="200px"
             headerText="Congrats"
         >
+<<<<<<< HEAD
           <h2>{successMessage.message || successMessage}</h2>
+=======
+<<<<<<< HEAD
+          <h2>{successMessage.message || successMessage}</h2>
+=======
+          <h2>{"Regirstation Success"}</h2>
+>>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
+>>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
         </ReactDialogBox>
 
       )}
