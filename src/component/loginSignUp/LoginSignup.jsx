@@ -22,16 +22,73 @@ const LoginSignup = () => {
     const [dialogFormError, setDialogFormError] = useState(false)
     const [dialogFormSuccess, setDialogFormSuccess] = useState(false)
 const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
-    const [action, setAction] = useState("Sign up");
+    const [action, setAction] = useState("Login");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
-    const handleLogin = () => {
-        const loginSuccessful = true; // Replace this with your actual logic
+    const handleLogin = async () => {
 
-        if (loginSuccessful) {
-            navigate("/home"); // if can login, then it will navigate to the home screen, this home screen is not finished yet, this one is temporary only
+        console.log("login") 
+        if(!loginSignupFormData.email || !loginSignupFormData.password
+         ){
+            setErrorMessage("All fields are required")
+            setDialogFormError(true)
+            return
+         } 
+         if (!emailRegex.test(loginSignupFormData.email)) {
+            setErrorMessage("Invalid email format.");
+            setDialogFormError(true);
+            return;
+          }
+        //   if (!user.loginSignupFormData.email ) {
+        //     setErrorMessage("Invalid Email and Password");
+        //     setDialogFormError(true);
+        //     return;
+        //   }
+
+        //   if (!passwordMatch.loginSignupFormData.password ) {
+        //     setErrorMessage("Invalid Email and Password");
+        //     setDialogFormError(true);
+        //     return;
+        //   }
+
+        try {
+            const user = {
+          email: loginSignupFormData.email,
+          password: loginSignupFormData.password,
+              };
+
+              console.log(user)
+              const response = await axios.post("http://localhost:3000/api/login",user,{
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                })
+                if (response.data)
+                    {
+                        console.log(response.data)
+                        if (response.data.firstName === "Admin"){
+                            setSuccessMessage("Admin Successfully Login")
+                        setDialogFormSuccess(true)
+                            navigate("/admin")
+                            
+                        } else{
+                            setSuccessMessage("Login Successful")
+                        setDialogFormSuccess(true)
+                        navigate("/home");
+                        }
+                        
+                    }
+        } catch (error) {
+            console.log(error.response.data)
+            setErrorMessage(error.response.data)
+            setDialogFormError(true)
         }
+        
+    
+        
+       
     };
 
     const handleToggleAction = () => {
@@ -75,6 +132,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                 if (response.data)
                     {
                         setDialogFormSuccess(true)
+                        setSuccessMessage("Registration Successful")
                         setLoginSignupFormData(initialFormState);
                         setAction("Login");
 
@@ -101,7 +159,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         <div className="background">
             <div className="container">
                 <div className="header">
-                    <div className="text">{action}</div>
+                    <div className="text">{action === "Login" ? "Login" : "Sign up"}</div>
                     <div className="underline"></div>
                 </div>
                 <div className="inputs">
@@ -149,7 +207,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             bodyHeight="200px"
             headerText="Error"
         >
-          <h2>{errorMessage.error}</h2>
+          <h2>{errorMessage.error || errorMessage}</h2>
         </ReactDialogBox>
 
       )}
@@ -165,9 +223,9 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             bodyBackgroundColor="white"
             bodyTextColor="black"
             bodyHeight="200px"
-            headerText="Error"
+            headerText="Congrats"
         >
-          <h2>{"Registration successful"}</h2>
+          <h2>{successMessage.message || successMessage}</h2>
         </ReactDialogBox>
 
       )}
