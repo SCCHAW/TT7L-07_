@@ -8,9 +8,12 @@ import user_icon from '../assets/Assets/person.png';
 import email_icon from '../assets/Assets/email.png';
 import password_icon from '../assets/Assets/password.png';
 import axios from "axios";
+import DialogBoxSuccess from "../dialogbox/dialogSuccess";
+import DialogBoxError from "../dialogbox/dialogError";
 
 
 const LoginSignup = () => {
+
     const initialFormState = {
     firstName: "",
     lastName: "",
@@ -25,7 +28,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
     const [action, setAction] = useState("Login");
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const [errorMessage, setErrorMessage] = useState("");
-<<<<<<< HEAD
+
     const [successMessage, setSuccessMessage] = useState("");
 
     const handleLogin = async () => {
@@ -73,68 +76,21 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                             setSuccessMessage("Admin Successfully Login")
                         setDialogFormSuccess(true)
                             navigate("/admin")
-                            
+
                         } else{
                             setSuccessMessage("Login Successful")
                         setDialogFormSuccess(true)
                         navigate("/home");
                         }
-                        
+
                     }
         } catch (error) {
             console.log(error.response.data)
             setErrorMessage(error.response.data)
             setDialogFormError(true)
-=======
-<<<<<<< HEAD
-    const [successMessage, setSuccessMessage] = useState("");
-
-    const handleLogin = async () => {
-=======
-    
-
-    const handleLogin = async () => {
-        console.log("login") 
-        if( !loginSignupFormData.email || !loginSignupFormData.password
-         ){
-            setErrorMessage("Email and password are required")
-            setDialogFormError(true)
-            return
-            
-            
-
-            try {
-                const user = {
-                     email: loginSignupFormData.email,
-              password: loginSignupFormData.password,
-                  };
-    
-                  console.log(user)
-                  const response = await axios.post("http://localhost:3000/api/login",user,{
-                    headers: {
-                        "Content-Type": "application/json",
-                      },
-                    })
-                    if (response.data)
-                        {
-                            setDialogFormSuccess(true)
-                            setLoginSignupFormData(initialFormState);
-                            setAction("login");
-    
-                        }
-            } catch (error) {
-                console.log(error.response.data)
-                setErrorMessage(error.response.data)
-                setDialogFormError(true)
-            }
-            
->>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
         }
-        
-    
-        
-       
-    };
+      }
+
 
     const handleToggleAction = () => {
         setAction((prevAction) => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
@@ -170,71 +126,6 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
 
               console.log(user)
               const response = await axios.post("http://localhost:3000/api/users",user,{
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                })
-                if (response.data)
-                    {
-                        setDialogFormSuccess(true)
-                        setSuccessMessage("Registration Successful")
-                        setLoginSignupFormData(initialFormState);
-                        setAction("Login");
-
-                    }
-        } catch (error) {
-            console.log(error.response.data)
-            setErrorMessage(error.response.data)
-            setDialogFormError(true)
-        }
-        
-    }
-
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-       setLoginSignupFormData({
-          ...loginSignupFormData,
-          [name]: value,
-        });
-      };
-
-<<<<<<< HEAD
-=======
-        const loginSuccessful = true; // Replace this with your actual logic
->>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
-
-        console.log("login") 
-        if(!loginSignupFormData.email || !loginSignupFormData.password
-         ){
-            setErrorMessage("All fields are required")
-            setDialogFormError(true)
-            return
-         } 
-         if (!emailRegex.test(loginSignupFormData.email)) {
-            setErrorMessage("Invalid email format.");
-            setDialogFormError(true);
-            return;
-          }
-        //   if (!user.loginSignupFormData.email ) {
-        //     setErrorMessage("Invalid Email and Password");
-        //     setDialogFormError(true);
-        //     return;
-        //   }
-
-        //   if (!passwordMatch.loginSignupFormData.password ) {
-        //     setErrorMessage("Invalid Email and Password");
-        //     setDialogFormError(true);
-        //     return;
-        //   }
-
-        try {
-            const user = {
-          email: loginSignupFormData.email,
-          password: loginSignupFormData.password,
-              };
-
-              console.log(user)
-              const response = await axios.post("http://localhost:3000/api/login",user,{
                 headers: {
                     "Content-Type": "application/json",
                   },
@@ -242,74 +133,10 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                 if (response.data)
                     {
                         console.log(response.data)
-                        if (response.data.firstName === "Admin"){
-                            setSuccessMessage("Admin Successfully Login")
+                        setSuccessMessage(response.data.message)
                         setDialogFormSuccess(true)
-                            navigate("/admin")
-                            
-                        } else{
-                            setSuccessMessage("Login Successful")
-                        setDialogFormSuccess(true)
-                        navigate("/home");
-                        }
                         
-                    }
-        } catch (error) {
-            console.log(error.response.data)
-            setErrorMessage(error.response.data)
-            setDialogFormError(true)
-        }
-        
-    
-        
-       
-    };
-
-    const handleToggleAction = () => {
-        setAction((prevAction) => (prevAction === "Sign Up" ? "Login" : "Sign Up"));
-    };
-
-    const handleSignup =async () => {
-        console.log("signup") 
-        if(!loginSignupFormData.firstName || !loginSignupFormData.lastName || !loginSignupFormData.email || !loginSignupFormData.password
-            || !loginSignupFormData.confirmPassword
-         ){
-            setErrorMessage("All fields are required")
-            setDialogFormError(true)
-            return
-         } 
-         if (!emailRegex.test(loginSignupFormData.email)) {
-            setErrorMessage("Invalid email format.");
-            setDialogFormError(true);
-            return;
-          }
-          if (loginSignupFormData.password !== loginSignupFormData.confirmPassword) {
-            setErrorMessage("Passwords do not match.");
-            setDialogFormError(true);
-            return;
-          }
-
-        try {
-            const user = {
-                firstName: loginSignupFormData.firstName,
-          lastName: loginSignupFormData.lastName,
-          email: loginSignupFormData.email,
-          password: loginSignupFormData.password,
-              };
-
-              console.log(user)
-              const response = await axios.post("http://localhost:3000/api/users",user,{
-                headers: {
-                    "Content-Type": "application/json",
-                  },
-                })
-                if (response.data)
-                    {
-                        setDialogFormSuccess(true)
-                        setSuccessMessage("Registration Successful")
-                        setLoginSignupFormData(initialFormState);
-                        setAction("Login");
-
+                
                     }
         } catch (error) {
             console.log(error.response.data)
@@ -327,8 +154,15 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         });
       };
 
->>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
+      const handleCloseModal = () => {
+        setDialogFormSuccess(false);
+        setLoginSignupFormData(initialFormState);
+                        setAction("Login");
+      };
 
+      const handleCloseModalError = () => {
+        setDialogFormError(false);
+      };
 
     return (
         <div className="background">
@@ -368,50 +202,12 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                 </div>
                 {action === "Login" && (<div className="forgot-password">Forgot password? <span>Click Here!</span></div>
 )}
-             {/* error Dialog box */}
-       {dialogFormError && (
-         <ReactDialogBox
-         closeBox={() => setDialogFormError(false)}
-            modalWidth="60%"
-            headerBackgroundColor="red"
-            headerTextColor="white"
-            headerHeight="65"
-            closeButtonColor="white"
-            bodyBackgroundColor="white"
-            bodyTextColor="black"
-            bodyHeight="200px"
-            headerText="Error"
-        >
-          <h2>{errorMessage.error || errorMessage}</h2>
-        </ReactDialogBox>
+           
+      <DialogBoxError errorTitle={"error"} errorMessage={errorMessage.error || errorMessage} handleCloseModalError={handleCloseModalError} isDialogOpenError={dialogFormError} />
 
-      )}
 
-{dialogFormSuccess && (
-         <ReactDialogBox
-         closeBox={() => setDialogFormSuccess(false)}
-            modalWidth="60%"
-            headerBackgroundColor="green"
-            headerTextColor="white"
-            headerHeight="65"
-            closeButtonColor="white"
-            bodyBackgroundColor="white"
-            bodyTextColor="black"
-            bodyHeight="200px"
-            headerText="Congrats"
-        >
-<<<<<<< HEAD
-          <h2>{successMessage.message || successMessage}</h2>
-=======
-<<<<<<< HEAD
-          <h2>{successMessage.message || successMessage}</h2>
-=======
-          <h2>{"Regirstation Success"}</h2>
->>>>>>> 4a0aebd4a3b5f23576cd0d7871618720a2565149
->>>>>>> a220b9a33ab05c5d6e225a77661a06ad7555ddb2
-        </ReactDialogBox>
+<DialogBoxSuccess dialogTitle={"Congrats"} dialogMessage={successMessage.message || successMessage} isModalOpen={dialogFormSuccess} handleCloseModal={handleCloseModal}/>
 
-      )}
 
                 {action === "Sign Up" ? (
                     <div className="navigatepage">Already have an account? <span onClick={handleToggleAction}>Login now</span></div>
