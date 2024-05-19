@@ -5,6 +5,7 @@ import LoginSignup from "../component/loginSignUp/LoginSignup";
 import Homepage from "../component/pages/homepage";
 import Adminpage from "../component/pages/adminpage";
 import AdminViewAllProduct from "../component/pages/adminViewProduct";
+import AdminProductDetail from "../component/pages/adminProductDetail";
 
 export const RootNavigation = () => {
     return (
@@ -14,6 +15,7 @@ export const RootNavigation = () => {
           <Route exact path="/home" element={<Homepage />} />
           <Route exact path="/admin" element={<Adminpage />} />
           <Route exact path="/adminViewProduct" element={ <AdminViewAllProduct/>} />
+          <Route exact path="/adminProductDetail" element={ <AdminProductDetail/>} />
         </Routes>
       </BrowserRouter>
    );

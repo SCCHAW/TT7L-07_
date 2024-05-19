@@ -45,6 +45,7 @@ const AdminViewAllProduct = () =>{
 
       const handleProductDetails=(product)=>{
         console.log('product details', product)
+        navigate("/adminProductDetail", {state:{product}})
     }
   
 
@@ -94,8 +95,8 @@ const AdminViewAllProduct = () =>{
             >
               {product.productDescription}
             </p>
-            <h7 >Price: RM {product.productPrice} : 00 </h7>
-            <h7 style={{marginBottom: 10}}>Year: {product.productYear}</h7>
+            <h6 >Price: RM {product.productPrice} : 00 </h6>
+            <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
             <button to="#" className="btn btn-primary mt-auto" onClick={()=> {handleProductDetails(product)}}>
               Product Details
             </button>

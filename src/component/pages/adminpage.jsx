@@ -24,12 +24,13 @@ const Adminpage = () => {
   const [isSuccessMessage, setIsSuccessMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-      const years = [];
-      const currentYear = new Date().getFullYear();
-      for (let year = currentYear; year >= currentYear - 20; year--) {
-        years.push(year);
-      }
+  const years = [];
+  const currentYear = new Date().getFullYear();
+  for (let year = currentYear; year >= currentYear - 20; year--) {
+    years.push(year);
+  }
 
+  
       const handleSubmitProduct = async (event) => {
         event.preventDefault();
         console.log("product");
@@ -101,7 +102,7 @@ const Adminpage = () => {
               <h2 className="mb-4 text-center">Add Product</h2>
               <form>
                 <div className="mb-3">
-                  <label className="form-label" for="productName">
+                  <label className="form-label" htmlFor="productName">
                     Product Name
                   </label>
                   <input
