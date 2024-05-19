@@ -8,16 +8,19 @@ import user_icon from '../assets/Assets/person.png';
 import email_icon from '../assets/Assets/email.png';
 import password_icon from '../assets/Assets/password.png';
 import axios from "axios";
+import DialogBoxSuccess from "../dialogbox/dialogSuccess";
+import DialogBoxError from "../dialogbox/dialogError";
 
 
 const LoginSignup = () => {
+
     const initialFormState = {
     firstName: "",
     lastName: "",
     email: "",
     password: "",
     confirmPassword: ""
-  }};
+  };
     const navigate = useNavigate();
     const [dialogFormError, setDialogFormError] = useState(false)
     const [dialogFormSuccess, setDialogFormSuccess] = useState(false)
@@ -86,11 +89,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             setErrorMessage(error.response.data)
             setDialogFormError(true)
         }
-
-
-
-
-    ;
+      }
 
 
     const handleToggleAction = () => {
@@ -133,11 +132,11 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                 })
                 if (response.data)
                     {
+                        console.log(response.data)
+                        setSuccessMessage(response.data.message)
                         setDialogFormSuccess(true)
-                        setSuccessMessage("Registration Successful")
-                        setLoginSignupFormData(initialFormState);
-                        setAction("Login");
-
+                        
+                
                     }
         } catch (error) {
             console.log(error.response.data)
@@ -155,6 +154,15 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         });
       };
 
+      const handleCloseModal = () => {
+        setDialogFormSuccess(false);
+        setLoginSignupFormData(initialFormState);
+                        setAction("Login");
+      };
+
+      const handleCloseModalError = () => {
+        setDialogFormError(false);
+      };
 
     return (
         <div className="background">
@@ -194,46 +202,12 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                 </div>
                 {action === "Login" && (<div className="forgot-password">Forgot password? <span>Click Here!</span></div>
 )}
-             {/* error Dialog box */}
-       {dialogFormError && (
-         <ReactDialogBox
-         closeBox={() => setDialogFormError(false)}
-            modalWidth="60%"
-            headerBackgroundColor="red"
-            headerTextColor="white"
-            headerHeight="65"
-            closeButtonColor="white"
-            bodyBackgroundColor="white"
-            bodyTextColor="black"
-            bodyHeight="200px"
-            headerText="Error"
-        >
-          <h2>{errorMessage.error || errorMessage}</h2>
-        </ReactDialogBox>
+           
+      <DialogBoxError errorTitle={"error"} errorMessage={errorMessage.error || errorMessage} handleCloseModalError={handleCloseModalError} isDialogOpenError={dialogFormError} />
 
-      )}
 
-{dialogFormSuccess && (
-         <ReactDialogBox
-         closeBox={() => setDialogFormSuccess(false)}
-            modalWidth="60%"
-            headerBackgroundColor="green"
-            headerTextColor="white"
-            headerHeight="65"
-            closeButtonColor="white"
-            bodyBackgroundColor="white"
-            bodyTextColor="black"
-            bodyHeight="200px"
-            headerText="Congrats"
-        >
+<DialogBoxSuccess dialogTitle={"Congrats"} dialogMessage={successMessage.message || successMessage} isModalOpen={dialogFormSuccess} handleCloseModal={handleCloseModal}/>
 
-          <h2>{successMessage.message || successMessage}</h2>
-
-          <h2>{successMessage.message || successMessage}</h2>
-
-        </ReactDialogBox>
-
-      )}
 
                 {action === "Sign Up" ? (
                     <div className="navigatepage">Already have an account? <span onClick={handleToggleAction}>Login now</span></div>
