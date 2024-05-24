@@ -79,7 +79,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                             navigate("/admin", {state:{userFirstName}})
 
                         } else{
-                           
+                            const userFirstName=response.data.firstName
                             setSuccessMessage("Login Successful")
                         setDialogFormSuccess(true)
                         navigate("/home", {state:{userFirstName}})

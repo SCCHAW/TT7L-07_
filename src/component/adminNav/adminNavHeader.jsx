@@ -75,7 +75,7 @@ const AdminNavHeader = ({
               </li>
               <li className="nav-item">
                 <a
-                  className="nav-link "
+                  className="nav-link"
                   aria-current="page"
                   href="#"
                   onClick={handleAddProduct}
