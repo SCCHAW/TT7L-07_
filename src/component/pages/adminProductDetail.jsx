@@ -3,6 +3,7 @@ import React , {useState} from "react";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DialogBoxSuccess from "../dialogbox/dialogSuccess";
 import DoubleDialogBox from "../dialogbox/doubleDiologBox";
+import DialogBoxYesNo from "../dialogbox/dialogBoxYesNo";
 
 
 
@@ -14,7 +15,8 @@ const AdminProductDetail =() => {
     const navigate = useNavigate();
 
     const [isSuccessMessage, setIsSuccessMessage] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFirstModalOpen, setIsFirstModalOpen] = useState(false);
+  const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
 
 
     const handleCancel =() => {
@@ -23,23 +25,45 @@ const AdminProductDetail =() => {
 
     const handleDelete = async () =>{
         try {
-            const response = await axios.delete(`http://localhost:3000/api/products/${product.id}`)
-            if (response.data){
-                setIsSuccessMessage(response.data.message)
-            setIsModalOpen(true)
-            }
+          setIsFirstModalOpen(true)
+
         } catch (error) {
             
         }
     }
+      
+    
+    
+    const deleteProduct = async ()=> {
+      try {
+                     const response = await axios.delete(`http://localhost:3000/api/products/${product.id}`)
+             if (response.data){
+                 setIsSuccessMessage(response.data.message)
+             
+             }
+      } catch (error) {
+        console.log(error.message) 
+      }
+    }
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        handleCancel()
-      };
 
-      const handleCloseFirstModal =() => {
-        setIsModalOpen(false);
+
+
+      const handleCloseSecondModal =() => {
+        setIsSecondModalOpen(false);
+       handleCancel()
+      }
+
+
+
+      const handleFirstClick =()=> {
+        setIsFirstModalOpen(false)
+        deleteProduct()
+        setIsSecondModalOpen(true)
+      }
+
+      const handleSecondClick =()=> {
+        setIsFirstModalOpen(false)
       }
 
 
@@ -62,7 +86,7 @@ const AdminProductDetail =() => {
 
         <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
         <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-danger" onClick={()=> setIsModalOpen(true)}>Delete</button>
+            <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete</button>
             <div>
                 <button type="button" className="btn btn-primary me-2">Update</button>
                 <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
@@ -79,13 +103,24 @@ const AdminProductDetail =() => {
     <DialogBoxSuccess
         dialogTitle={"Success"}
         dialogMessage={isSuccessMessage.message || isSuccessMessage}
-        isModalOpen={isModalOpen}
-        handleCloseModal={handleCloseModal}
+        isModalOpen={isSecondModalOpen}
+        handleCloseModal={handleCloseSecondModal}
       />
 
-<DoubleDialogBox firstTittle={"Delete product"} firstDescription={"Do you wish to delete this product?"} firstButtonText={"Yes"} secondButtonText={"No"} 
+      <DialogBoxYesNo 
+      modalTitle={"Info"}
+      description={"Do you wish to delete this product?"}
+      firstButtonText={"Yes"}
+      secondtButtonText={"No"}
+      handleFirstClick={handleFirstClick}
+      handleSecondClick={handleSecondClick}
+      isDialogOpenYesNo={isFirstModalOpen}
+
+      />
+
+{/* <DoubleDialogBox firstTittle={"Delete product"} firstDescription={"Do you wish to delete this product?"} firstButtonText={"Yes"} secondButtonText={"No"} 
 isModalOpen={isModalOpen} handleCloseFirstModal={handleCloseFirstModal} handleDeleteModal={handleDelete}
-/>
+/> */}
 
 
         </div>
