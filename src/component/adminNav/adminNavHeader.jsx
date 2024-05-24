@@ -1,19 +1,21 @@
 import React from "react";
-import './adminNavHeader.css'
 
 const AdminNavHeader = ({
   handleViewAllProduct,
   handleAddProduct,
   navTitle,
   productCategory,
-  handleInputChange
+  handleInputChange,
+  HandleHome,
+  handleCart,
+  handleLogout
 }) => {
   return (
-    <nav className="navbar navbar-dark bg-warning fixed-top">
+    <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <a className="navbar-brand me-3" href="#">
-            {navTitle}
+            Welcome {navTitle}!
           </a>
         </div>
         <div className="d-flex justify-content-end align-items-end">
@@ -32,7 +34,7 @@ const AdminNavHeader = ({
           </select>
 
           <button
-            className="navbar-toggler bg-secondary"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasDarkNavbar"
@@ -43,14 +45,14 @@ const AdminNavHeader = ({
           </button>
         </div>
         <div
-          className="offcanvas offcanvas-end bg-warning-subtle"
+          className="offcanvas offcanvas-end text-bg-dark"
           tabIndex="-1"
           id="offcanvasDarkNavbar"
           aria-labelledby="offcanvasDarkNavbarLabel"
         >
           <div className="offcanvas-header">
             <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">
-              Admin
+              {navTitle}
             </h5>
             <button
               type="button"
@@ -61,20 +63,40 @@ const AdminNavHeader = ({
           </div>
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li className="nav-item">
+            <li className="nav-item">
                 <a
-                  className="offcanvas-body"
+                  className="nav-link active"
                   aria-current="page"
                   href="#"
-                  onClick={handleAddProduct}
-              
+                  onClick={HandleHome}
                 >
-                  Add Product
+                 { navTitle !== 'Admin'? 'Home': ''}
                 </a>
               </li>
               <li className="nav-item">
-                <a className="offcanvas-title" href="#" onClick={handleViewAllProduct}>
+                <a
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                  onClick={handleAddProduct}
+                >
+                 { navTitle !== 'Admin'? 'Profile': 'Add Product'}
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={handleViewAllProduct}>
                   View All product
+                </a>
+              </li>
+
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={handleCart}>
+                 { navTitle !== 'Admin'?  'Cart' : " "}
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#" onClick={handleLogout}>
+               Logout
                 </a>
               </li>
             </ul>

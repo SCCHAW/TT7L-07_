@@ -69,18 +69,20 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                     "Content-Type": "application/json",
                   },
                 })
+                const userFirstName = response.data.firstName
                 if (response.data)
                     {
                         console.log(response.data)
                         if (response.data.firstName === "Admin"){
                             setSuccessMessage("Admin Successfully Login")
                         setDialogFormSuccess(true)
-                            navigate("/admin")
+                            navigate("/admin", {state:{userFirstName}})
 
                         } else{
+                           
                             setSuccessMessage("Login Successful")
                         setDialogFormSuccess(true)
-                        navigate("/home");
+                        navigate("/home", {state:{userFirstName}})
                         }
 
                     }

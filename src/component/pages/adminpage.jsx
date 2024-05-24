@@ -1,7 +1,7 @@
 import React , {useState} from "react";
 import "./adminpage.css";
 import AdminNavHeader from "../adminNav/adminNavHeader";
-import { Link, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DialogBoxError from "../dialogbox/dialogError";
 import DialogBoxSuccess from "../dialogbox/dialogSuccess";
 import axios from "axios";
@@ -16,6 +16,8 @@ const Adminpage = () => {
         productImage:""
       };
       const navigate = useNavigate();
+      const location = useLocation();
+      const { userFirstName } = location.state || {};
 
       const [productFormData, setProductFormData] = useState(initialFormState)
 
@@ -94,7 +96,7 @@ const Adminpage = () => {
 
   return (
     <div>
-      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={'Admin - Add Product'}/>
+      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={"Admin"}/>
       <div className="container mt-5 yellow-200">
         <div className="row justify-content-center">
           <div className="col-md-6">

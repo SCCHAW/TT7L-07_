@@ -53,7 +53,7 @@ const AdminViewAllProduct = () =>{
     return(
         <div>
             <AdminNavHeader
-        navTitle={"Admin - View Product"}
+        navTitle={"Admin"}
         handleAddProduct={handleAddProduct}
         productCategory={selectedCategory}
         handleInputChange={handleInputChange}
