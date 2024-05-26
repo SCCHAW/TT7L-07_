@@ -1,70 +1,156 @@
 import axios from "axios";
-import React , {useState} from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DialogBoxSuccess from "../dialogbox/dialogSuccess";
 import DoubleDialogBox from "../dialogbox/doubleDiologBox";
 import DialogBoxYesNo from "../dialogbox/dialogBoxYesNo";
+import DialogBoxUpdate from "../dialogbox/dialogBoxUpdate";
+import DialogBoxError from "../dialogbox/dialogError";
 
 
 
 const AdminProductDetail =() => {
 
-    const location = useLocation();
-    const { product } = location.state || {};
-    console.log("check", product)
-    const navigate = useNavigate();
+  const location = useLocation();
+  const { product } = location.state || {};
+  console.log("check", product);
+  const navigate = useNavigate();
 
-    const [isSuccessMessage, setIsSuccessMessage] = useState("");
+  const [productFormData, setProductFormData] = useState({
+    productName: "",
+    productDescription: "",
+    productPrice: "",
+    productYear: "",
+    productCategory: "",
+    productImage: "",
+  });
+
+  const [isSuccessMessage, setIsSuccessMessage] = useState("");
   const [isFirstModalOpen, setIsFirstModalOpen] = useState(false);
   const [isSecondModalOpen, setIsSecondModalOpen] = useState(false);
+  const [isDialogModalUpdateOpen, setIsDialogModalUpdateOpen] = useState(false);
+  const [isDialogOpenError, setIsDialogOpenError] = useState(false);
+  const [isErrorMessage, setIsErrorMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-    const handleCancel =() => {
-        navigate("/adminViewProduct")
+  useEffect(() => {
+    if (product) {
+      setProductFormData({
+        productName: product.productName,
+        productDescription: product.productDescription,
+        productPrice: product.productPrice,
+        productYear: product.productYear,
+        productCategory: product.productCategory,
+        productImage: product.productImage,
+      });
     }
+  }, [product]);
 
-    const handleDelete = async () =>{
-        try {
-          setIsFirstModalOpen(true)
+  const handleCancel = () => {
+    navigate("/adminViewProduct");
+  };
 
-        } catch (error) {
-            
-        }
+  const handleDelete = async () => {
+    try {
+      setIsFirstModalOpen(true);
+    } catch (error) {}
+  };
+
+  const deleteProduct = async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/products/${product.id}`
+      );
+      if (response.data) {
+        setIsSuccessMessage(response.data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
     }
-      
-    
-    
-    const deleteProduct = async ()=> {
-      try {
-                     const response = await axios.delete(`http://localhost:3000/api/products/${product.id}`)
-             if (response.data){
-                 setIsSuccessMessage(response.data.message)
-             
-             }
-      } catch (error) {
-        console.log(error.message) 
+  };
+
+  const handleCloseSecondModal = () => {
+    setIsSecondModalOpen(false);
+    handleCancel();
+  };
+
+  const handleFirstClick = () => {
+    setIsFirstModalOpen(false);
+    deleteProduct();
+    setIsSecondModalOpen(true);
+  };
+
+  const handleSecondClick = () => {
+    setIsFirstModalOpen(false);
+  };
+
+  const handleProductUpdate = () => {
+    setIsDialogModalUpdateOpen(true);
+  };
+
+  const handleCloseDialogUpdate = () => {
+    setIsDialogModalUpdateOpen(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setProductFormData({
+      ...productFormData,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      if (
+        !productFormData.productName ||
+        !productFormData.productDescription ||
+        !productFormData.productPrice ||
+        !productFormData.productImage ||
+        !productFormData.productYear ||
+        !productFormData.productCategory
+      ) {
+        setIsErrorMessage("All fields are required");
+        setIsDialogOpenError(true);
+        return;
       }
+
+      const productUpdateData = {
+        productName: productFormData.productName,
+        productDescription: productFormData.productDescription,
+        productPrice: productFormData.productPrice,
+        productYear: productFormData.productYear,
+        productCategory: productFormData.productCategory,
+        productImage: productFormData.productImage,
+      };
+      console.log(product);
+
+      const response = await axios.put(
+        `http://localhost:3000/api/updateProduct/${product.id}`,
+        productUpdateData
+      );
+      console.log("product success--", response.data);
+      if (response.data) {
+        setIsSuccessMessage(response.data.message);
+        setIsDialogModalUpdateOpen(false);
+        setIsModalOpen(true);
+      }
+    } catch (error) {
+      setIsErrorMessage(error.response.data);
+      setIsDialogOpenError(true);
+      console.log("error 1", error.response.data);
+      console.log("error2, ", error.response);
     }
+  };
 
+  const handleCloseModalError = () => {
+    setIsDialogOpenError(false);
+  };
 
-
-
-      const handleCloseSecondModal =() => {
-        setIsSecondModalOpen(false);
-       handleCancel()
-      }
-
-
-
-      const handleFirstClick =()=> {
-        setIsFirstModalOpen(false)
-        deleteProduct()
-        setIsSecondModalOpen(true)
-      }
-
-      const handleSecondClick =()=> {
-        setIsFirstModalOpen(false)
-      }
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    handleCancel();
+  };
 
 
     return (
@@ -88,7 +174,7 @@ const AdminProductDetail =() => {
         <div className="d-flex justify-content-between">
             <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete</button>
             <div>
-                <button type="button" className="btn btn-primary me-2">Update</button>
+                <button type="button" className="btn btn-primary me-2" onClick={handleProductUpdate}>Update</button>
                 <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
             </div>
         </div>
@@ -107,6 +193,20 @@ const AdminProductDetail =() => {
         handleCloseModal={handleCloseSecondModal}
       />
 
+<DialogBoxSuccess
+        dialogTitle={"Success"}
+        dialogMessage={isSuccessMessage.message || isSuccessMessage}
+        isModalOpen={isModalOpen}
+        handleCloseModal={handleCloseModal}
+      />
+
+<DialogBoxError
+        errorTitle={"Error"}
+        errorMessage={isErrorMessage.error || isErrorMessage}
+        handleCloseModalError={handleCloseModalError}
+        isDialogOpenError={isDialogOpenError}
+      />
+
       <DialogBoxYesNo 
       modalTitle={"Info"}
       description={"Do you wish to delete this product?"}
@@ -118,9 +218,15 @@ const AdminProductDetail =() => {
 
       />
 
-{/* <DoubleDialogBox firstTittle={"Delete product"} firstDescription={"Do you wish to delete this product?"} firstButtonText={"Yes"} secondButtonText={"No"} 
-isModalOpen={isModalOpen} handleCloseFirstModal={handleCloseFirstModal} handleDeleteModal={handleDelete}
-/> */}
+<DialogBoxUpdate
+modalTitle={"Update Product"}
+isDialogOpenUpdate={isDialogModalUpdateOpen}
+handleCloseDialogUpdate={handleCloseDialogUpdate}
+productFormData={productFormData}
+handleInputChange={handleInputChange}
+handleUpdate={handleUpdate}
+
+/>
 
 
         </div>
