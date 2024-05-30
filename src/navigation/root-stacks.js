@@ -6,6 +6,8 @@ import Homepage from "../component/pages/homepage";
 import Adminpage from "../component/pages/adminpage";
 import AdminViewAllProduct from "../component/pages/adminViewProduct";
 import AdminProductDetail from "../component/pages/adminProductDetail";
+import UsersProductDetails from "../component/pages/usersProductDetail";
+import UserProfile from "../component/pages/usersProfile";
 
 export const RootNavigation = () => {
     return (
@@ -16,6 +18,8 @@ export const RootNavigation = () => {
           <Route exact path="/admin" element={<Adminpage />} />
           <Route exact path="/adminViewProduct" element={ <AdminViewAllProduct/>} />
           <Route exact path="/adminProductDetail" element={ <AdminProductDetail/>} />
+          <Route exact path="/usersProductDetail" element={ <UsersProductDetails/>} />
+          <Route exact path="/usersProfile" element={ <UserProfile/>} />
         </Routes>
       </BrowserRouter>
    );

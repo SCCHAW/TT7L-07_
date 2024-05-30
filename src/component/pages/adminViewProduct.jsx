@@ -15,9 +15,7 @@ const AdminViewAllProduct = () =>{
   }, []);
 
 
-    const handleAddProduct = () => {
-        navigate("/admin");
-      };
+    
 
       const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -54,7 +52,6 @@ const AdminViewAllProduct = () =>{
         <div>
             <AdminNavHeader
         navTitle={"Admin"}
-        handleAddProduct={handleAddProduct}
         productCategory={selectedCategory}
         handleInputChange={handleInputChange}
         

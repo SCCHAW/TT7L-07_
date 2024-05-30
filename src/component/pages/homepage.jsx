@@ -1,6 +1,7 @@
 import React , {useState, useEffect} from "react";
 import "./homepage.css"
 import { useDispatch  } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import web_logo from '../assets/Assets/treasure-hunt-logo1.jpeg'
 import AdminNavHeader from "../adminNav/adminNavHeader";
@@ -14,6 +15,7 @@ const Homepage = () => {
 
     const dispatch = useDispatch()
 
+    const navigate = useNavigate()
     const storedUserData = JSON.parse(localStorage.getItem('user'));
   const storedFirstName = storedUserData ? storedUserData.firstName : '';
 
@@ -87,6 +89,12 @@ const Homepage = () => {
         
     }
   }
+   
+const handleProductDetails=(product)=>{
+console.log('cc',product)
+navigate('/usersProductDetail', {state:{product}})
+}
+
 
     return (
         <div className="text-bg-light p-3">
@@ -243,12 +251,13 @@ const Homepage = () => {
             <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
             <div style={{display:"flex" ,flexDirection:"column"}}>
-            <button to="#" className="btn btn-primary" style={{marginBottom:10}} >
-              Product Details
+            <button to="#" className="btn btn-primary" style={{marginBottom:10}} onClick={()=> {handleProductDetails(product)}} >
+              Product Details 
+              
             </button>
             <button to="#" className="btn btn-primary" >
               Add to cart
-            </button>
+            </button> 
             </div>
           </div>
         </div>
