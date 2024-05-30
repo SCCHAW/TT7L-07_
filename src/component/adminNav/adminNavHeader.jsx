@@ -1,4 +1,7 @@
-import React from "react";
+import React , {useState, useEffect} from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess, logoutSuccess } from "../../features/auth/authSlice";
+import { useNavigate } from 'react-router-dom';
 
 const AdminNavHeader = ({
   handleViewAllProduct,
@@ -8,8 +11,28 @@ const AdminNavHeader = ({
   handleInputChange,
   HandleHome,
   handleCart,
-  handleLogout
+  // handleLogout
 }) => {
+const dispatch = useDispatch()
+const navigate = useNavigate()
+
+
+useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  if (!storedUser) {
+    navigate('/'); // Redirect to login if user data is not found in Local Storage
+  } else {
+    dispatch(loginSuccess(storedUser)); // Restore user data from Local Storage to Redux store
+  }
+}, [dispatch, navigate])
+
+
+const handleLogout = () => {
+  dispatch(logoutSuccess());
+  localStorage.removeItem('user'); // Remove user data from Local Storage
+  navigate('/');
+}
+
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
@@ -75,7 +98,7 @@ const AdminNavHeader = ({
               </li>
               <li className="nav-item">
                 <a
-                  className="nav-link"
+                  className="nav-link "
                   aria-current="page"
                   href="#"
                   onClick={handleAddProduct}

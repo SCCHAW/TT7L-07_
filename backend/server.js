@@ -138,7 +138,7 @@ app.post('/api/login', async (req, res) => {
     return res.status(401).json({ error: 'Invalid email or password' });
   }
 
-  res.status(200).json({ message: 'Login Successful', userId: user.id, firstName: user.firstName });
+  res.status(200).json({ message: 'Login Successful', userId: user.id, firstName: user.firstName, lastName:user.lastName, email:user.email});
 });
 
 // Define API endpoints for products

@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './LoginSignup.css';
-import { ReactDialogBox } from "react-js-dialog-box";
-import "react-js-dialog-box/dist/index.css";
+import { useDispatch } from 'react-redux';
 
 import user_icon from '../assets/Assets/person.png';
 import email_icon from '../assets/Assets/email.png';
@@ -10,6 +9,7 @@ import password_icon from '../assets/Assets/password.png';
 import axios from "axios";
 import DialogBoxSuccess from "../dialogbox/dialogSuccess";
 import DialogBoxError from "../dialogbox/dialogError";
+import { loginSuccess } from "../../features/auth/authSlice";
 
 
 const LoginSignup = () => {
@@ -22,6 +22,7 @@ const LoginSignup = () => {
     confirmPassword: ""
   };
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [dialogFormError, setDialogFormError] = useState(false)
     const [dialogFormSuccess, setDialogFormSuccess] = useState(false)
 const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
@@ -30,6 +31,19 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
     const [errorMessage, setErrorMessage] = useState("");
 
     const [successMessage, setSuccessMessage] = useState("");
+
+    useEffect(()=> {
+        const storedUser = localStorage.getItem('user');
+        if(storedUser){
+            const userFirstName = JSON.parse(storedUser).firstName;
+      console.log('storedUserData', userFirstName)
+      if (userFirstName === 'Admin') {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
+        }
+    }, [navigate]);
 
     const handleLogin = async () => {
 
@@ -45,17 +59,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
             setDialogFormError(true);
             return;
           }
-        //   if (!user.loginSignupFormData.email ) {
-        //     setErrorMessage("Invalid Email and Password");
-        //     setDialogFormError(true);
-        //     return;
-        //   }
-
-        //   if (!passwordMatch.loginSignupFormData.password ) {
-        //     setErrorMessage("Invalid Email and Password");
-        //     setDialogFormError(true);
-        //     return;
-        //   }
+        
 
         try {
             const user = {
@@ -69,20 +73,26 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                     "Content-Type": "application/json",
                   },
                 })
-                const userFirstName = response.data.firstName
+
+                const userData = response.data
+                console.log("users",userData)
+                dispatch(loginSuccess(userData)) //saving to redox
+                localStorage.setItem("user" ,JSON.stringify(userData)) //saving to local storage-in computer
+
+                
                 if (response.data)
                     {
                         console.log(response.data)
                         if (response.data.firstName === "Admin"){
                             setSuccessMessage("Admin Successfully Login")
                         setDialogFormSuccess(true)
-                            navigate("/admin", {state:{userFirstName}})
+                            navigate("/admin")
 
                         } else{
-                            const userFirstName=response.data.firstName
+                           
                             setSuccessMessage("Login Successful")
                         setDialogFormSuccess(true)
-                        navigate("/home", {state:{userFirstName}})
+                        navigate("/home")
                         }
 
                     }

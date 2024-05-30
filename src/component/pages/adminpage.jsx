@@ -1,10 +1,12 @@
-import React , {useState} from "react";
+import React , {useState, useEffect} from "react";
 import "./adminpage.css";
 import AdminNavHeader from "../adminNav/adminNavHeader";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import DialogBoxError from "../dialogbox/dialogError";
 import DialogBoxSuccess from "../dialogbox/dialogSuccess";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "../../features/auth/authSlice";
 
 const Adminpage = () => {
     const initialFormState = {
@@ -16,8 +18,31 @@ const Adminpage = () => {
         productImage:""
       };
       const navigate = useNavigate();
-      const location = useLocation();
-      const { userFirstName } = location.state || {};
+      const dispatch = useDispatch();
+      const storedUserData = JSON.parse(localStorage.getItem('user'));
+      const adminFirstName = storedUserData ? storedUserData.firstName: ""
+      const [userFirstName, setUserFirstName] = useState(adminFirstName)
+
+      useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if (storedUser) {
+          dispatch(loginSuccess(storedUser)); // Restore user data from Local Storage to Redux store
+          setUserFirstName(storedUser.firstName);
+        }
+      }, [dispatch]);
+    
+      useEffect(() => {
+        localStorage.setItem('firstName', userFirstName);
+      }, [userFirstName]);
+    
+    
+      if (!userFirstName) {
+        <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      }
+
+      console.log("adminStoreData", storedUserData)
 
       const [productFormData, setProductFormData] = useState(initialFormState)
 
@@ -96,7 +121,7 @@ const Adminpage = () => {
 
   return (
     <div>
-      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={"Admin"}/>
+      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={userFirstName}/>
       <div className="container mt-5 yellow-200">
         <div className="row justify-content-center">
           <div className="col-md-6">
