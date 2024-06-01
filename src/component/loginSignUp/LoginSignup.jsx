@@ -176,6 +176,10 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         setDialogFormError(false);
       };
 
+      const handleForgetPassword =()=>{
+        navigate("/userForgetPassword")
+      }
+
     return (
         <div className="background">
             <div className="container">
@@ -212,7 +216,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                         </div>
                     )}
                 </div>
-                {action === "Login" && (<div className="forgot-password">Forgot password? <span>Click Here!</span></div>
+                {action === "Login" && (<div className="forgot-password" onClick={handleForgetPassword}>Forgot password? <span>Click Here!</span></div>
 )}
            
       <DialogBoxError errorTitle={"error"} errorMessage={errorMessage.error || errorMessage} handleCloseModalError={handleCloseModalError} isDialogOpenError={dialogFormError} />
