@@ -5,11 +5,11 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminNavHeader = ({
   handleViewAllProduct,
-  handleAddProduct,
+  // handleAddProduct,
   navTitle,
   productCategory,
   handleInputChange,
-  HandleHome,
+  // HandleHome,
   handleCart,
   // handleLogout
 }) => {
@@ -31,6 +31,22 @@ const handleLogout = () => {
   dispatch(logoutSuccess());
   localStorage.removeItem('user'); // Remove user data from Local Storage
   navigate('/');
+}
+
+const handleHome = () => {
+  navigate('/home')
+}
+   
+
+const handleAddProduct=()=>{
+  if(navTitle === 'Admin')
+    {
+      navigate('/admin')
+    
+    }else{
+      navigate('/usersProfile') 
+      console.log(navTitle) 
+    }
 }
 
   return (
@@ -91,9 +107,9 @@ const handleLogout = () => {
                   className="nav-link active"
                   aria-current="page"
                   href="#"
-                  onClick={HandleHome}
+                  onClick={handleHome}
                 >
-                 { navTitle !== 'Admin'? 'Home': ''}
+                 { navTitle !== 'Admin'? 'Home': null}
                 </a>
               </li>
               <li className="nav-item">
@@ -106,12 +122,7 @@ const handleLogout = () => {
                  { navTitle !== 'Admin'? 'Profile': 'Add Product'}
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#" onClick={handleViewAllProduct}>
-                  View All product
-                </a>
-              </li>
-
+          
               <li className="nav-item">
                 <a className="nav-link" href="#" onClick={handleCart}>
                  { navTitle !== 'Admin'?  'Cart' : " "}
