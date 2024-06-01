@@ -29,6 +29,7 @@ const Adminpage = () => {
           dispatch(loginSuccess(storedUser)); // Restore user data from Local Storage to Redux store
           setUserFirstName(storedUser.firstName);
         }
+        console.log("userFirstName", userFirstName)
       }, [dispatch]);
     
       useEffect(() => {

@@ -122,6 +122,17 @@ const handleAddProduct=()=>{
                  { navTitle !== 'Admin'? 'Profile': 'Add Product'}
                 </a>
               </li>
+
+              <li className="nav-item">
+                <a
+                  className="nav-link "
+                  aria-current="page"
+                  href="#"
+                  onClick={handleViewAllProduct}
+                >
+                 { navTitle !== 'Admin'? null : 'View All Product'}
+                </a>
+              </li>
           
               <li className="nav-item">
                 <a className="nav-link" href="#" onClick={handleCart}>
