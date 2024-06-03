@@ -146,13 +146,14 @@ const DialogBoxUpdate = ({
             </div>
             <div className="modal-footer">
               <button
+              style={{width:"20%", height:48}} 
                 type="button"
                 className="btn btn-secondary"
                 onClick={handleCloseDialogUpdate}
               >
                 Close
               </button>
-              <button type="button" className="btn btn-primary" onClick={handleUpdate}>
+              <button style={{width:"20%"}} type="button" className="btn btn-primary" onClick={handleUpdate}>
                 Submit
               </button>
             </div>

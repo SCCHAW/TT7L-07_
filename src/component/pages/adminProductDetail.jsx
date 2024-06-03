@@ -171,13 +171,17 @@ const AdminProductDetail =() => {
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
 
         <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
-        {isDialogModalUpdateOpen ? null: <div className="d-flex justify-content-between">
-            <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete</button>
-            <div>
-                <button type="button" className="btn btn-primary me-2" onClick={handleProductUpdate}>Update</button>
-                <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
-            </div>
-        </div>}
+        {isDialogModalUpdateOpen ? null : (
+  <div className="row">
+    <div className="col d-flex justify-content-start">
+      <button type="button" className="btn btn-danger" onClick={handleDelete}>Delete</button>
+    </div>
+    <div className="col d-flex justify-content-end">
+      <button style={{width:"26%"}} type="button" className="btn btn-primary me-2" onClick={handleProductUpdate}>Update</button>
+      <button type="button" className="btn btn-secondary" onClick={handleCancel}>Cancel</button>
+    </div>
+  </div>
+)}
         
     </div>
 </div>

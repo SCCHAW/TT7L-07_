@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import web_logo from '../assets/Assets/treasure-hunt-logo1.jpeg'
 import AdminNavHeader from "../adminNav/adminNavHeader";
 import { loginSuccess } from "../../features/auth/authSlice";
-import { authenticity, freeshipping, giftcard, photo1, photo2, photo3, voucher } from "../assets";
+import { authenticity, freeshipping, giftcard, notFound, photo1, photo2, photo3, voucher } from "../assets";
 import axios from "axios";
 
 
@@ -21,6 +21,7 @@ const Homepage = () => {
 
   const [userFirstName, setUserFirstName] = useState(storedFirstName);
   const [allProductData, setAllProductData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
 
   useEffect(() => {
@@ -95,11 +96,26 @@ console.log('cc',product)
 navigate('/usersProductDetail', {state:{product}})
 }
 
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  console.log('Selected category:', value);
+  setSelectedCategory(value);
+};
+
+
+const filteredProducts = selectedCategory
+? allProductData.filter(product => product.productCategory === selectedCategory)
+: allProductData;
+
 
     return (
         <div className="text-bg-light p-3">
             <AdminNavHeader 
-            navTitle={userFirstName}/>
+            navTitle={userFirstName}
+            home={"Home"}
+            productCategory={selectedCategory}
+            handleInputChange={handleInputChange}/>
+            
              {/* <img src={web_logo} alt=""/> */}
 
              <div
@@ -222,7 +238,7 @@ navigate('/usersProductDetail', {state:{product}})
           gap: 20,
         }}
       > 
-      {allProductData.map((product)=> (
+      { filteredProducts.length > 0 ? filteredProducts.map((product)=> (
           <div
           className="card"
           style={{ width: "20%", flexBasis: "20%",}}
@@ -251,18 +267,39 @@ navigate('/usersProductDetail', {state:{product}})
             <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
             <div style={{display:"flex" ,flexDirection:"column"}}>
-            <button to="#" className="btn btn-primary" style={{marginBottom:10}} onClick={()=> {handleProductDetails(product)}} >
+            <button to="#" className="btn btn-primary" style={{marginBottom:10, width:"60%", height:48}} onClick={()=> {handleProductDetails(product)}} >
               Product Details 
               
             </button>
-            <button to="#" className="btn btn-primary" >
+            <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}}  >
               Add to cart
             </button> 
             </div>
           </div>
         </div>
 
-      ))}
+      )): 
+      
+      <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "50vh",
+            }}
+          >
+            <h3 style={{ marginBottom: 20 }}>NOT FOUND</h3>
+            <img
+              src={notFound}
+              alt="Not Found"
+              style={{ height: 300, objectFit: "contain" }}
+            />
+          </div>
+    
+    }
+    
       
       </div>
     </div>
