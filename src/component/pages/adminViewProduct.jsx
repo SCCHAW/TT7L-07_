@@ -5,6 +5,7 @@ import axios from "axios";
 import "./adminViewProduct.css"
 import { loginSuccess } from "../../features/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { notFound } from "../assets";
 
 
 
@@ -97,7 +98,7 @@ const AdminViewAllProduct = () =>{
           gap: 20,
         }}
       >
-        {filteredProducts.map((product) => (
+        {filteredProducts.length > 0 ? filteredProducts.map((product) => (
           <div
             className="card"
             style={{ width: "20%", flexBasis: "20%" }}
@@ -135,7 +136,28 @@ const AdminViewAllProduct = () =>{
               </button>
             </div>
           </div>
-        ))}
+        )):
+        
+        <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "50vh",
+            }}
+          >
+            <h3 style={{ marginBottom: 20 }}>NOT FOUND</h3>
+            <img
+              src={notFound}
+              alt="Not Found"
+              style={{ height: 300, objectFit: "contain" }}
+            />
+          </div>
+
+
+        }
       </div>
         </div>
     )
