@@ -122,10 +122,10 @@ const Adminpage = () => {
 
   return (
     <div>
-      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={userFirstName}/>
+      <AdminNavHeader handleViewAllProduct={handleViewAllProduct} navTitle={userFirstName} />
       <div className="container mt-5 yellow-200">
-        <div className="row justify-content-center">
-          <div className="col-md-6">
+        <div className="row justify-content-center col-md-10">
+          <div className="col-md-10">
             <div className="card p-4">
               <h2 className="mb-4 text-center">Add Product</h2>
               <form>

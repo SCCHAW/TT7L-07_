@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 const AdminNavHeader = ({
   handleViewAllProduct,
-  // handleAddProduct,
   navTitle,
   productCategory,
   handleInputChange,
-  // HandleHome,
   handleCart,
-  // handleLogout
+  home,
+  viewAllProduct,
+  addproduct
 }) => {
 const dispatch = useDispatch()
 const navigate = useNavigate()
@@ -57,20 +57,40 @@ const handleAddProduct=()=>{
             Welcome {navTitle}!
           </a>
         </div>
+        
         <div className="d-flex justify-content-end align-items-end">
-          <select
-            className="form-select me-2"
-            aria-label="Default select example"
-            name="productCategory"
-            value={productCategory}
-            onChange={handleInputChange}
-          >
-            <option value="">Select Category</option>
-            <option value="Laptops">Laptops</option>
-            <option value="Printers">Printers</option>
-            <option value="Desktop">Desktop</option>
-            <option value="Phone">Phone</option>
-          </select>
+        { navTitle==="Admin" && viewAllProduct==="View All Product"  && (
+            <select
+              className="form-select me-2"
+              aria-label="Default select example"
+              name="productCategory"
+              value={productCategory}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Category</option>
+              <option value="Laptops">Laptops</option>
+              <option value="Printers">Printers</option>
+              <option value="Desktop">Desktop</option>
+              <option value="Phone">Phone</option>
+            </select>
+          )}
+          
+          { navTitle !== "Admin" && home==="Home" && (
+            <select
+              className="form-select me-2"
+              aria-label="Default select example"
+              name="productCategory"
+              value={productCategory}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Category</option>
+              <option value="Laptops">Laptops</option>
+              <option value="Printers">Printers</option>
+              <option value="Desktop">Desktop</option>
+              <option value="Phone">Phone</option>
+            </select>
+          )}
+          
 
           <button
             className="navbar-toggler"
@@ -109,7 +129,7 @@ const handleAddProduct=()=>{
                   href="#"
                   onClick={handleHome}
                 >
-                 { navTitle !== 'Admin'? 'Home': null}
+                 { navTitle !== 'Admin'? "Home": null}
                 </a>
               </li>
               <li className="nav-item">
@@ -130,7 +150,7 @@ const handleAddProduct=()=>{
                   href="#"
                   onClick={handleViewAllProduct}
                 >
-                 { navTitle !== 'Admin'? null : 'View All Product'}
+                 { navTitle !== 'Admin'? null : "View All Product"}
                 </a>
               </li>
           
