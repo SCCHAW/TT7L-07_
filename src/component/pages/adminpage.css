@@ -10,3 +10,8 @@
   .card {
     margin: 20px; /* Adjust as needed for horizontal spacing */
   }
+
+  .btn-primary{
+    width: 30%;
+    height: 48px;
+  }

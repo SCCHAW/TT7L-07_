@@ -8,6 +8,8 @@ import AdminViewAllProduct from "../component/pages/adminViewProduct";
 import AdminProductDetail from "../component/pages/adminProductDetail";
 import UsersProductDetails from "../component/pages/usersProductDetail";
 import UserProfile from "../component/pages/usersProfile";
+import UserForgetPassword from "../component/pages/userForgetPassword";
+import UserResetPassword from "../component/pages/userResetPassword";
 
 export const RootNavigation = () => {
     return (
@@ -20,6 +22,8 @@ export const RootNavigation = () => {
           <Route exact path="/adminProductDetail" element={ <AdminProductDetail/>} />
           <Route exact path="/usersProductDetail" element={ <UsersProductDetails/>} />
           <Route exact path="/usersProfile" element={ <UserProfile/>} />
+          <Route exact path="/userForgetPassword" element={ <UserForgetPassword/> } />
+          <Route exact path="/reset-password/:token" element={ <UserResetPassword/> } />
         </Routes>
       </BrowserRouter>
    );
