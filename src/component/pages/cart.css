@@ -1,0 +1,25 @@
+.shopping-cart-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    width: 300px;
+    border-radius: 5px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    margin-left: 10px;
+  }
+  
+  .product-buttons button {
+    margin-right: 10px;
+  }
+  
