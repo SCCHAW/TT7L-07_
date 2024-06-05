@@ -1,0 +1,17 @@
+.navbar-brand.black-text {
+    color: black !important;
+  }
+
+  .container {
+    margin-top: 100px; /* Adjust as needed for vertical spacing */
+    background-color: lightgoldenrodyellow;
+  }
+  
+  .card {
+    margin: 20px; /* Adjust as needed for horizontal spacing */
+  }
+
+  .btn-primary{
+    width: 30%;
+    height: 48px;
+  }

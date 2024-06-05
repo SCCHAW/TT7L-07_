@@ -1,0 +1,23 @@
+.navbar-brand{
+    color: black;
+}
+
+.nav-link{
+    color: #000;
+}
+
+.btn-primary{
+    width: 50%;
+    height: 48px;
+   align-self: center;
+   float: none;
+
+}
+
+.btn-container{
+    flex: 1;
+    margin-bottom: 20px;
+    justify-content: center;
+    align-items: center;
+    
+}
