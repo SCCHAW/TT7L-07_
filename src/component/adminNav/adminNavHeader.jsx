@@ -44,7 +44,8 @@ const handleAddProduct=()=>{
       navigate('/admin')
     
     }else{
-      navigate('/usersProfile')
+      navigate('/usersProfile') 
+      console.log(navTitle) 
     }
 }
 
