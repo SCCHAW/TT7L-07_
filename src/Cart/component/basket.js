@@ -37,10 +37,6 @@ export default function Basket(props) {
               <div className="col-1 text-right">${itemsPrice.toFixed(2)}</div>
             </div>
             <div className="row">
-              <div className="col-2">Tax Price</div>
-              <div className="col-1 text-right">${taxPrice.toFixed(2)}</div>
-            </div>
-            <div className="row">
               <div className="col-2">Shipping Price</div>
               <div className="col-1 text-right">
                 ${shippingPrice.toFixed(2)}
