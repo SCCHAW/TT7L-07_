@@ -91,6 +91,11 @@ const Homepage = () => {
     }
   }
    
+  const handleAddCart =()=>{
+    console.log('successfully add cart')
+    navigate('/userCart')
+    }
+    
 const handleProductDetails=(product)=>{
 console.log('cc',product)
 navigate('/usersProductDetail', {state:{product}})
@@ -271,9 +276,9 @@ const filteredProducts = selectedCategory
               Product Details 
               
             </button>
-            <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}}  >
+            <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}}  onClick={handleAddCart}>
               Add to cart
-            </button> 
+            </button>
             </div>
           </div>
         </div>
