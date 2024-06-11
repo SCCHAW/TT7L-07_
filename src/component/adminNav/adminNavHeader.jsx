@@ -43,7 +43,7 @@ const AdminNavHeader = ({
     if (navTitle === "Admin") {
       navigate("/admin");
     } else {
-      navigate("/userProfile");
+      navigate("/usersProfile");
       console.log(navTitle);
     }
   };

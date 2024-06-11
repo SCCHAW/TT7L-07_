@@ -49,16 +49,7 @@ const storedUserData = JSON.parse(localStorage.getItem('user'));
                                 <h4>Joined on</h4>
                                 <p>{user.createdAt ? String(user.createdAt).substring(0, 10) : 'Not available'}</p>
 
-                                {user.role !== 'admin' && (
-                                    <Fragment>
-                                        <Link to="/cart/me" className="btn btn-danger btn-block mt-3">
-                                            My Cart
-                                        </Link>
-                                        <Link to="/transaction/me" className="btn btn-danger btn-block mt-3">
-                                            My Transactions
-                                        </Link>
-                                    </Fragment>
-                                )}
+                                
                                 <Link to="/userForgetPassword" className="btn btn-primary btn-block mt-3">
                                     Change Password
                                 </Link>
