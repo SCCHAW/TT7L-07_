@@ -32,6 +32,8 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
 
     const [successMessage, setSuccessMessage] = useState("");
 
+
+
     useEffect(()=> {
         const storedUser = localStorage.getItem('user');
         if(storedUser){
@@ -129,11 +131,13 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
           }
 
         try {
+            const register_date_user = new Date()
             const user = {
                 firstName: loginSignupFormData.firstName,
           lastName: loginSignupFormData.lastName,
           email: loginSignupFormData.email,
           password: loginSignupFormData.password,
+          
               };
 
               console.log(user)
