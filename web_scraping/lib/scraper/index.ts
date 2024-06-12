@@ -34,6 +34,8 @@ export async function scrapeAmazonProduct(url: string) {
       $('.priceToPay span.a-price-whole'),
       $('.a.size.base.a-color-price'),
       $('.a-button-selected .a-color-base'),
+      //lazada
+      $('notranslate pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl')
     );
 
     const originalPrice = extractPrice(
@@ -41,7 +43,9 @@ export async function scrapeAmazonProduct(url: string) {
       $('.a-price.a-text-price span.a-offscreen'),
       $('#listPrice'),
       $('#priceblock_dealprice'),
-      $('.a-size-base.a-color-price')
+      $('.a-size-base.a-color-price'),
+      //lazada
+      $('notranslate pdp-price pdp-price_type_deleted pdp-price_color_lightgray pdp-price_size_xs')
     );
 
     const outOfStock = $('#availability span').text().trim().toLowerCase() === 'currently unavailable';
@@ -49,7 +53,10 @@ export async function scrapeAmazonProduct(url: string) {
     const images = 
       $('#imgBlkFront').attr('data-a-dynamic-image') || 
       $('#landingImage').attr('data-a-dynamic-image') ||
+      //lazada
+      $('#gallery-preview-panel').attr('data-a-dynamic-image') ||
       '{}'
+
 
     const imageUrls = Object.keys(JSON.parse(images));
 
@@ -61,7 +68,7 @@ export async function scrapeAmazonProduct(url: string) {
     // Construct data object with scraped information
     const data = {
       url,
-      currency: currency || '$',
+      currency: currency || 'RM',
       image: imageUrls[0],
       title,
       currentPrice: Number(currentPrice) || Number(originalPrice),

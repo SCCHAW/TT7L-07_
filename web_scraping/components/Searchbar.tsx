@@ -3,7 +3,7 @@
 import { scrapeAndStoreProduct } from '@/lib/actions';
 import { FormEvent, useState } from 'react'
 
-const isValidAmazonProductURL = (url: string) => {
+const isValidAmazonLazadaProductURL = (url: string) => {
   try {
     const parsedURL = new URL(url);
     const hostname = parsedURL.hostname;
@@ -11,7 +11,11 @@ const isValidAmazonProductURL = (url: string) => {
     if(
       hostname.includes('amazon.com') || 
       hostname.includes ('amazon.') || 
-      hostname.endsWith('amazon')
+      hostname.endsWith('amazon') ||
+      hostname.includes('lazada.com') ||
+      hostname.includes('lazada') ||
+      hostname.endsWith('lazada')
+
     ) {
       return true;
     }
@@ -29,9 +33,9 @@ const Searchbar = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const isValidLink = isValidAmazonProductURL(searchPrompt);
+    const isValidLink = isValidAmazonLazadaProductURL(searchPrompt);
 
-    if(!isValidLink) return alert('Please provide a valid Amazon link')
+    if(!isValidLink) return alert('Please provide a valid Amazon or Lazada link')
 
     try {
       setIsLoading(true);
