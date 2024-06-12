@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment , useState } from 'react';
 import AdminNavHeader from '../adminNav/adminNavHeader';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { defaultAvatar } from '../assets';
 
 const UserProfile = () => {
     const { user, loading } = useSelector(state => state.auth);
+
+    const storedUserData = JSON.parse(localStorage.getItem('user'));
+    const storedFirstName = storedUserData ? storedUserData.firstName : '';
+    const [userFirstName, setUserFirstName] = useState(storedFirstName);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -12,31 +17,31 @@ const UserProfile = () => {
 
     return (
         <Fragment>
-            <AdminNavHeader navTitle={user.name} />
+            <AdminNavHeader navTitle={userFirstName} />
             <div className="container mt-5">
                 <h2 className="mb-5 text-center">My Profile</h2>
                 <div className="row justify-content-center user-info">
                     <div className="col-12 col-md-4 text-center">
-                        {user.avatar && user.avatar.url ? (
+                        {defaultAvatar && defaultAvatar ? (
                             <figure className="avatar avatar-profile">
                                 <img
                                     className="rounded-circle img-fluid"
-                                    src={user.avatar.url}
-                                    alt={user.name}
+                                    src={ defaultAvatar }
+                                    alt= "Default Avatar"
                                 />
                             </figure>
                         ) : (
                             <div className="placeholder-avatar">No avatar available</div>
                         )}
                         <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-3">
-                            Edit Profile
+                            Edit Profile Picture
                         </Link>
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="card">
                             <div className="card-body">
-                                <h4>Full Name</h4>
-                                <p>{user.name || 'Not available'}</p>
+                                <h4>Name</h4>
+                                <p>{userFirstName || 'Not available'}</p>
 
                                 <h4>Email Address</h4>
                                 <p>{user.email || 'Not available'}</p>
@@ -46,20 +51,13 @@ const UserProfile = () => {
 
                                 {user.role !== 'admin' && (
                                     <Fragment>
-                                        <Link to="/cart/me" className="btn btn-danger btn-block mt-3">
-                                            My Cart
-                                        </Link>
-                                        <Link to="/transaction/me" className="btn btn-danger btn-block mt-3">
-                                            My Transactions
-                                        </Link>
+
                                     </Fragment>
                                 )}
-                                <Link to="/password/update" className="btn btn-primary btn-block mt-3">
+                                <Link to="/password/me" className="btn btn-primary btn-block mt-3">
                                     Change Password
                                 </Link>
-                                <Link to="/back/me" className="btn btn-primary btn-block mt-3">
-                                    Exit Profile
-                                </Link>
+            
                             </div>
                         </div>
                     </div>

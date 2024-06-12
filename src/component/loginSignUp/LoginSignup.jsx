@@ -129,6 +129,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
           }
 
         try {
+            const register_date_user = new Date()
             const user = {
                 firstName: loginSignupFormData.firstName,
           lastName: loginSignupFormData.lastName,

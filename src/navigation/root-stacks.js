@@ -20,6 +20,7 @@ export const RootNavigation = () => {
           <Route exact path="/adminProductDetail" element={ <AdminProductDetail/>} />
           <Route exact path="/usersProductDetail" element={ <UsersProductDetails/>} />
           <Route exact path="/usersProfile" element={ <UserProfile/>} />
+      
         </Routes>
       </BrowserRouter>
    );
