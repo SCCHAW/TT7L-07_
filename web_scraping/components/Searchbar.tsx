@@ -14,8 +14,10 @@ const isValidAmazonLazadaProductURL = (url: string) => {
       hostname.endsWith('amazon') ||
       hostname.includes('lazada.com') ||
       hostname.includes('lazada') ||
-      hostname.endsWith('lazada')
-
+      hostname.endsWith('lazada') ||
+      hostname.includes('shopee.com') ||
+      hostname.includes('shopee') ||
+      hostname.endsWith('shopee') 
     ) {
       return true;
     }
@@ -35,7 +37,7 @@ const Searchbar = () => {
 
     const isValidLink = isValidAmazonLazadaProductURL(searchPrompt);
 
-    if(!isValidLink) return alert('Please provide a valid Amazon or Lazada link')
+    if(!isValidLink) return alert('Please provide a valid Amazon,Shopee or Lazada link')
 
     try {
       setIsLoading(true);

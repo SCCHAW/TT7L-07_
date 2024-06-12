@@ -35,7 +35,9 @@ export async function scrapeAmazonProduct(url: string) {
       $('.a.size.base.a-color-price'),
       $('.a-button-selected .a-color-base'),
       //lazada
-      $('notranslate pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl')
+      $('.notranslate pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl'),
+      //shopee
+      $('.G27FPf')
     );
 
     const originalPrice = extractPrice(
@@ -45,7 +47,9 @@ export async function scrapeAmazonProduct(url: string) {
       $('#priceblock_dealprice'),
       $('.a-size-base.a-color-price'),
       //lazada
-      $('notranslate pdp-price pdp-price_type_deleted pdp-price_color_lightgray pdp-price_size_xs')
+      $('.notranslate pdp-price pdp-price_type_deleted pdp-price_color_lightgray pdp-price_size_xs'),
+      //shopee
+      $('.qg2n76')
     );
 
     const outOfStock = $('#availability span').text().trim().toLowerCase() === 'currently unavailable';
@@ -54,7 +58,9 @@ export async function scrapeAmazonProduct(url: string) {
       $('#imgBlkFront').attr('data-a-dynamic-image') || 
       $('#landingImage').attr('data-a-dynamic-image') ||
       //lazada
-      $('#gallery-preview-panel').attr('data-a-dynamic-image') ||
+      $('.gallery-preview-panel').attr('data-a-dynamic-image') ||
+      //shopee
+      $('.WgnznX').attr('data-a-dynamic-image') ||
       '{}'
 
 
