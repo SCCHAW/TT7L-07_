@@ -6,8 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import web_logo from '../assets/Assets/treasure-hunt-logo1.jpeg'
 import AdminNavHeader from "../adminNav/adminNavHeader";
 import { loginSuccess } from "../../features/auth/authSlice";
-import { authenticity, freeshipping, giftcard, photo1, photo2, photo3, voucher } from "../assets";
+import { authenticity, freeshipping, giftcard, notFound, photo1, photo2, photo3, voucher } from "../assets";
 import axios from "axios";
+import DialogBoxError from "../dialogbox/dialogError";
+import DialogShoppingCart from "../dialogbox/dialogBoxCart";
 
 
 
@@ -21,6 +23,14 @@ const Homepage = () => {
 
   const [userFirstName, setUserFirstName] = useState(storedFirstName);
   const [allProductData, setAllProductData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [productAddedToCart , setProductAddedToCart] = useState([]);
+  const [isDialogOpenError, setIsDialogOpenError] = useState(false)
+
+  const [showDialogCartModal, setShowDialogCartModal] = useState(false);
+  const [total_per_quantity, setTotal_Per_Quantity] = useState(1)
+  const [totalPerProductPrice, setTotalPerProductPrice]= useState(0)
+
 
 
   useEffect(() => {
@@ -95,11 +105,93 @@ console.log('cc',product)
 navigate('/usersProductDetail', {state:{product}})
 }
 
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  console.log('Selected category:', value);
+  setSelectedCategory(value);
+};
+
+
+
+
+const filteredProducts = selectedCategory
+? allProductData.filter(product => product.productCategory === selectedCategory)
+: allProductData;
+
+useEffect(() => {
+  console.log("product",productAddedToCart)
+  const sumTotalProduct = productAddedToCart.reduce((total, item) => {
+    return total + item.totalPrice;
+  }, 0);
+  setTotalPerProductPrice(sumTotalProduct);
+}, [productAddedToCart]);
+
+
+const handleAddToCart = (product) => {
+  console.log("added to cart--", product);
+  if (!productAddedToCart.some((item) => item.id === product.id)) {
+    setProductAddedToCart([...productAddedToCart, { ...product, quantity: 1 }]);
+  } else {
+    setIsDialogOpenError(true);
+    console.log("Product already added to cart");
+  }
+};
+
+const handleCloseModalError =()=>{
+  setIsDialogOpenError(false)
+}
+
+const handleRemoveCartItem = (productToRemove) => {
+  const updatedCart = productAddedToCart.filter(item => item !== productToRemove);
+  setProductAddedToCart(updatedCart);
+};
+
+const handleIncreaseProduct_Quantity = (item) => {
+  const updatedCart = productAddedToCart.map((product) => {
+    if (product.id === item.id) {
+      const updatedQuantity = product.quantity + 1;
+      const updatedPrice = product.productPrice * updatedQuantity;
+
+      return { ...product, quantity: updatedQuantity, totalPrice: updatedPrice };
+    }
+    return product;
+  });
+  setProductAddedToCart(updatedCart);
+};
+
+const handleDecreaseProduct_Quantity = (item) => {
+  const updatedCart = productAddedToCart.map((product) => {
+    if (product.id === item.id && product.quantity > 1) {
+      const updatedQuantity = product.quantity - 1;
+      const updatedPrice = product.productPrice * updatedQuantity;
+      console.log('updatedPrice', updatedPrice)
+   
+      return { ...product, quantity: updatedQuantity, totalPrice: updatedPrice };
+    }
+    return product;
+  });
+  setProductAddedToCart(updatedCart);
+};
+
+const handleCloseCartDialog = () => {
+  setShowDialogCartModal(false);
+};
+
+const handleCart = () => {
+  setShowDialogCartModal(true);
+};
 
     return (
         <div className="text-bg-light p-3">
             <AdminNavHeader 
-            navTitle={userFirstName}/>
+            navTitle={userFirstName}
+            home={"Home"}
+            productCategory={selectedCategory}
+            handleInputChange={handleInputChange}
+            cartItems={productAddedToCart}
+            handleCart={handleCart}
+            />
+            
              {/* <img src={web_logo} alt=""/> */}
 
              <div
@@ -222,7 +314,7 @@ navigate('/usersProductDetail', {state:{product}})
           gap: 20,
         }}
       > 
-      {allProductData.map((product)=> (
+      { filteredProducts.length > 0 ? filteredProducts.map((product)=> (
           <div
           className="card"
           style={{ width: "20%", flexBasis: "20%",}}
@@ -251,20 +343,53 @@ navigate('/usersProductDetail', {state:{product}})
             <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
             <div style={{display:"flex" ,flexDirection:"column"}}>
-            <button to="#" className="btn btn-primary" style={{marginBottom:10}} onClick={()=> {handleProductDetails(product)}} >
+            <button to="#" className="btn btn-primary" style={{marginBottom:10, width:"60%", height:48}} onClick={()=> {handleProductDetails(product)}} >
               Product Details 
               
             </button>
-            <button to="#" className="btn btn-primary" >
+            <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}} onClick={()=> {handleAddToCart(product)}} >
               Add to cart
             </button> 
             </div>
           </div>
         </div>
 
-      ))}
+      )): 
+      
+      <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "50vh",
+            }}
+          >
+            <h3 style={{ marginBottom: 20 }}>NOT FOUND</h3>
+            <img
+              src={notFound}
+              alt="Not Found"
+              style={{ height: 300, objectFit: "contain" }}
+            />
+          </div>
+    
+    }
+    
       
       </div>
+      <DialogShoppingCart 
+      isDialogCartOpen={showDialogCartModal}
+      handleCloseCartDialog={handleCloseCartDialog}
+      cartItems={productAddedToCart}
+      handleRemoveCartItem={handleRemoveCartItem}
+      total_per_quantity={total_per_quantity}
+      totalPerProductPrice={totalPerProductPrice}
+      handleIncreaseProduct_Quantity={handleIncreaseProduct_Quantity}
+      handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
+      
+      />
+      <DialogBoxError errorTitle={"Error"} errorMessage={"Product is already in cart"} isDialogOpenError={isDialogOpenError} handleCloseModalError={handleCloseModalError}/>
     </div>
            
         </div>

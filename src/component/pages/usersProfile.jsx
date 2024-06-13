@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux';
 import { defaultAvatar } from '../assets';
 
 const UserProfile = () => {
-    const { user, loading } = useSelector(state => state.auth);
+    const { user, loading } = useSelector(state => state.auth)
 
-    const storedUserData = JSON.parse(localStorage.getItem('user'));
+const storedUserData = JSON.parse(localStorage.getItem('user'));
     const storedFirstName = storedUserData ? storedUserData.firstName : '';
     const [userFirstName, setUserFirstName] = useState(storedFirstName);
 
@@ -47,17 +47,12 @@ const UserProfile = () => {
                                 <p>{user.email || 'Not available'}</p>
 
                                 <h4>Joined on</h4>
-                                <p>{user.createdAt ? String(user.createdAt).substring(0, 10) : 'Not available'}</p>
+                                <p>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Not available'}</p>
 
-                                {user.role !== 'admin' && (
-                                    <Fragment>
-
-                                    </Fragment>
-                                )}
-                                <Link to="/password/me" className="btn btn-primary btn-block mt-3">
+                                <Link to="/userForgetPassword" className="btn btn-primary btn-block mt-3">
                                     Change Password
                                 </Link>
-            
+                                
                             </div>
                         </div>
                     </div>

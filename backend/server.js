@@ -4,6 +4,9 @@ const fs = require('fs');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const dbPath = '../src/db/database.db'; // database
@@ -28,6 +31,7 @@ function initDatabase(dbPath) {
         lastName TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL
+        createAt TEXT NOT NULL DEFAULT (datetime('now'))
       );
       CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,6 +42,12 @@ function initDatabase(dbPath) {
         productCategory TEXT NOT NULL,
         productImage TEXT
       );
+      CREATE TABLE IF NOT EXISTS password_resets (
+        email TEXT NOT NULL,
+        token TEXT NOT NULL,
+        expiration INTEGER NOT NULL
+      );
+
     `);
     newDb.close(); // Close the database connection
     console.log('Database created successfully');
@@ -62,7 +72,7 @@ app.use((req, res, next) => {
         firstName TEXT NOT NULL,
         lastName TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL  
       );
       CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,12 +83,107 @@ app.use((req, res, next) => {
         productCategory TEXT NOT NULL,
         productImage TEXT
       );
+      CREATE TABLE IF NOT EXISTS password_resets (
+        email TEXT NOT NULL,
+        token TEXT NOT NULL,
+        expiration INTEGER NOT NULL
+      );
+
     `);
     next();
   } catch (error) {
     console.error('Error ensuring tables exist:', error);
     res.status(500).json({ error: 'Database initialization error' });
   }
+});
+
+// Nodemailer configuration
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'sweeneychaw@gmail.com',
+    pass: 'talu jmff cfoa myrp'
+  },
+  tls: {
+    rejectUnauthorized: false
+  },
+  logger: true, 
+  debug: true  
+});
+
+// Forgot Password Endpoint
+app.post('/api/forgot-password', (req, res) => {
+  const { email } = req.body;
+  const user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const token = crypto.randomBytes(32).toString('hex'); //create a token for the user
+  const expiration = Date.now() + 3600000; // 1 hour expiration
+
+  db.prepare('INSERT INTO password_resets (email, token, expiration) VALUES (?, ?, ?)')
+    .run(email, token, expiration);
+
+    const imageIcon = 'https://images.unsplash.com/photo-1641359255145-9af4ff37a4f5?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+
+  const mailOptions = {
+    from: 'sweeneychaw@gmail.com',
+    to: email,
+    subject: 'Password Reset',
+    html: `
+    <div style="text-align: center; font-family: Arial, sans-serif;">
+      <img src=${imageIcon} alt="Icon" style="width: 200px; height: 200px;" />
+      <h2>Treasure Hunt Password Reset Request</h2>
+      <p>You are receiving this because you (or someone else) have requested the reset of the password for your account.</p>
+      <p>Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:</p>
+      <a href="http://localhost:3001/reset-password/${token}" style="display: inline-block; padding: 10px 20px; color: white; background-color: blue; text-decoration: none; border-radius: 5px;">Reset Password</a>
+      <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
+    </div>
+  `,
+    // text: You requested a password reset. Click the link to reset your password: ${resetLink}
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return res.status(500).json({ error: 'Error sending email' });
+    }
+    res.status(200).json({ message: 'Password reset email sent' });
+  });
+});
+
+// Reset Password Endpoint
+app.post('/api/reset-password/:token', async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  const resetRequest = db.prepare('SELECT * FROM password_resets WHERE token = ?').get(token);
+
+  if (!resetRequest || resetRequest.expiration < Date.now()) {
+    return res.status(400).json({ error: 'Invalid or expired token' });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  db.prepare('UPDATE users SET password = ? WHERE email = ?')
+    .run(hashedPassword, resetRequest.email);
+
+  db.prepare('DELETE FROM password_resets WHERE token = ?').run(token);
+
+  res.status(200).json({ message: 'Password reset successfully' });
+});
+
+
+// Define API endpoints for users
+app.get('/api/users', (req, res) => {
+  const users = db.prepare('SELECT * FROM users').all();
+  res.json(users);
+});
+
+app.get('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+  res.json(user);
 });
 
 // Define API endpoints for users
@@ -107,6 +212,7 @@ app.post('/api/users', async (req, res) => {
 
   // Hash the password before storing it
   const hashedPassword = await bcrypt.hash(password, 10);
+  const createdAt = new Date().toISOString(); //Store the current date
 
   // Insert the new user into the database
   const sql = `
@@ -153,6 +259,12 @@ app.get('/api/products/:id', (req, res) => {
   const { id } = req.params;
   const product = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
   res.json(product);
+});
+
+app.get('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+    const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+    res.json(user);
 });
 
 // create product endpoint
@@ -208,6 +320,9 @@ app.delete('/api/products/:id', (req, res) => {
     res.status(500).json({ error: 'An unexpected error occurred' });
   }
 });
+
+
+
 
 // Start the server
 app.listen(PORT, () => {

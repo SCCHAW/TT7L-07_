@@ -32,6 +32,8 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
 
     const [successMessage, setSuccessMessage] = useState("");
 
+
+
     useEffect(()=> {
         const storedUser = localStorage.getItem('user');
         if(storedUser){
@@ -135,6 +137,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
           lastName: loginSignupFormData.lastName,
           email: loginSignupFormData.email,
           password: loginSignupFormData.password,
+          
               };
 
               console.log(user)
@@ -177,6 +180,10 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
         setDialogFormError(false);
       };
 
+      const handleForgetPassword =()=>{
+        navigate("/userForgetPassword")
+      }
+
     return (
         <div className="background">
             <div className="container">
@@ -213,7 +220,7 @@ const [loginSignupFormData, setLoginSignupFormData] = useState(initialFormState)
                         </div>
                     )}
                 </div>
-                {action === "Login" && (<div className="forgot-password">Forgot password? <span>Click Here!</span></div>
+                {action === "Login" && (<div className="forgot-password" onClick={handleForgetPassword}>Forgot password? <span>Click Here!</span></div>
 )}
            
       <DialogBoxError errorTitle={"error"} errorMessage={errorMessage.error || errorMessage} handleCloseModalError={handleCloseModalError} isDialogOpenError={dialogFormError} />
