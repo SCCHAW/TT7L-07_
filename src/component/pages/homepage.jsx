@@ -10,6 +10,7 @@ import { authenticity, freeshipping, giftcard, notFound, photo1, photo2, photo3,
 import axios from "axios";
 import DialogBoxError from "../dialogbox/dialogError";
 import DialogShoppingCart from "../dialogbox/dialogBoxCart";
+import ProductComparisonModal from "../dialogbox/dialogBoxTable";
 
 
 
@@ -30,6 +31,9 @@ const Homepage = () => {
   const [showDialogCartModal, setShowDialogCartModal] = useState(false);
   const [total_per_quantity, setTotal_Per_Quantity] = useState(1)
   const [totalPerProductPrice, setTotalPerProductPrice]= useState(0)
+
+  const [isDialogTableOpen, setIsDialogTableOpen] = useState(false)
+  const [filteredProductTable, setFilteredProductTable] = useState([]);
 
 
 
@@ -181,6 +185,30 @@ const handleCart = () => {
   setShowDialogCartModal(true);
 };
 
+const handleComparePrice = (product) => {
+  console.log('compare', product);
+  const filtered = allProductData.filter(
+    (item) => item.productCategory === product.productCategory
+  );
+
+  let finalFiltered = [];
+  if (filtered.length === 1) {
+    finalFiltered = filtered;
+  } else if (filtered.length >= 3) {
+    const randomLength = Math.floor(Math.random() * (filtered.length - 1)) + 2;
+    finalFiltered = filtered.sort(() => 0.5 - Math.random()).slice(0, randomLength);
+  } else {
+    finalFiltered = filtered;
+  }
+
+  setFilteredProductTable(finalFiltered);
+  setIsDialogTableOpen(true);
+};
+
+const handleDialogTableClose=()=> {
+  setIsDialogTableOpen(false)
+}
+
     return (
         <div className="text-bg-light p-3">
             <AdminNavHeader 
@@ -327,7 +355,29 @@ const handleCart = () => {
             style={{ height: "200px", objectFit: "cover" }}
           />
           <div className="card-body d-flex flex-column justify-content-between">
-            <h5 className="card-title">{product.productName}</h5>
+          <div
+                    style={{
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h5 className="card-title">{product.productName}</h5>
+                    <span
+                      className="badge bg-danger rounded-pill"
+                      style={{
+                        display: "inline",
+                        position: "absolute",
+                        top: "10px",
+                        right: "-10px",
+                        padding: "0.40rem 0.5rem",
+                      }}
+                      onClick={()=> {handleComparePrice(product)}}
+                    >
+                      {"Compare Price"}
+                    </span>
+                  </div>
             <p
               className="card-text"
               style={{
@@ -389,6 +439,12 @@ const handleCart = () => {
       handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
       
       />
+
+<ProductComparisonModal 
+      cartItems={filteredProductTable} 
+      isDialogTableOpen={isDialogTableOpen} 
+      handleDialogTableClose={handleDialogTableClose}/>
+
       <DialogBoxError errorTitle={"Error"} errorMessage={"Product is already in cart"} isDialogOpenError={isDialogOpenError} handleCloseModalError={handleCloseModalError}/>
     </div>
            

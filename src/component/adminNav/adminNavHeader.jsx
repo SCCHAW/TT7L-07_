@@ -62,41 +62,43 @@ const AdminNavHeader = ({
         </div>
 
         <div className="d-flex justify-content-end align-items-end">
-          <div
-            className="cart-container d-flex align-items-center"
-            style={{ display: "flex", marginRight: 30 }}
-          >
-            <a
-              href="#"
-              className="cart-link"
-              onClick={handleCart}
-              style={{
-                flexDirection: "row",
-                display: "flex",
-                position: "relative",
-              }}
-            >
-              <i className="fas fa-shopping-cart"></i>{" "}
-              <img
-                src={cart}
-                alt="..."
-                style={{ width: 38, height: 38 }}
-              />
-              <span
-                className="badge bg-danger rounded-pill"
-                style={{
-                  display: cartItems?.length > 0 ? "inline" : "none",
-                  position: "absolute",
-                  top: "-4px",
-                  right: "-10px",
-                  fontSize: "0.7rem",
-                  padding: "0.40rem 0.5rem",
-                }}
-              >
-                {cartItems?.length}
-              </span>
-            </a>
-          </div>
+        {navTitle !== 'Admin' && (
+    <div
+    className="cart-container d-flex align-items-center"
+    style={{ display: "flex", marginRight: 30 }}
+  >
+    <a
+      href="#"
+      className="cart-link"
+      onClick={handleCart}
+      style={{
+        flexDirection: "row",
+        display: "flex",
+        position: "relative",
+      }}
+    >
+      <i className="fas fa-shopping-cart"></i>{" "}
+      <img
+        src={cart}
+        alt="..."
+        style={{ width: 38, height: 38 }}
+      />
+      <span
+        className="badge bg-danger rounded-pill"
+        style={{
+          display: cartItems?.length > 0 ? "inline" : "none",
+          position: "absolute",
+          top: "-4px",
+          right: "-10px",
+          fontSize: "0.7rem",
+          padding: "0.40rem 0.5rem",
+        }}
+      >
+        {cartItems?.length}
+      </span>
+    </a>
+  </div>
+          )}
 
           {navTitle === "Admin" && viewAllProduct === "View All Product" && (
             <select
