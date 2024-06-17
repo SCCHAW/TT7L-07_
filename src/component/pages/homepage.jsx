@@ -205,6 +205,25 @@ const handleComparePrice = (product) => {
   setIsDialogTableOpen(true);
 };
 
+const Site1 = () => {
+  return (
+    <div>
+      <h1>lazada 1</h1>
+      <div className="iframe-container">
+       <iframe
+       src="https://www.lazada.com.my/#?"
+       width="600"
+       height="400"
+       allowFullScreen
+       loading="lazy"
+       referrerPolicy="no-referrer-when-downgrade"
+       tittle="lazada 1"
+       ></iframe>
+      </div>
+    </div>
+  );
+};
+
 const handleDialogTableClose=()=> {
   setIsDialogTableOpen(false)
 }
