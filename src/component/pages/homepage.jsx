@@ -11,6 +11,7 @@ import axios from "axios";
 import DialogBoxError from "../dialogbox/dialogError";
 import DialogShoppingCart from "../dialogbox/dialogBoxCart";
 import ProductComparisonModal from "../dialogbox/dialogBoxTable";
+import Sites from "./sites";
 
 
 
@@ -205,24 +206,6 @@ const handleComparePrice = (product) => {
   setIsDialogTableOpen(true);
 };
 
-const Site1 = () => {
-  return (
-    <div>
-      <h1>lazada 1</h1>
-      <div className="iframe-container">
-       <iframe
-       src="https://www.lazada.com.my/#?"
-       width="600"
-       height="400"
-       allowFullScreen
-       loading="lazy"
-       referrerPolicy="no-referrer-when-downgrade"
-       tittle="lazada 1"
-       ></iframe>
-      </div>
-    </div>
-  );
-};
 
 const handleDialogTableClose=()=> {
   setIsDialogTableOpen(false)
@@ -350,6 +333,8 @@ const handleDialogTableClose=()=> {
     ))}
   </div>
 </div>
+
+<Sites />
 
 <div
         style={{
