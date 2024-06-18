@@ -1,18 +1,28 @@
-import React, { Fragment , useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import AdminNavHeader from '../adminNav/adminNavHeader';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { defaultAvatar } from '../assets';
 
 const UserProfile = () => {
-    const { user, loading } = useSelector(state => state.auth)
+    const { user, loading } = useSelector(state => state.auth);
 
-const storedUserData = JSON.parse(localStorage.getItem('user'));
+    const storedUserData = JSON.parse(localStorage.getItem('user'));
     const storedFirstName = storedUserData ? storedUserData.firstName : '';
     const [userFirstName, setUserFirstName] = useState(storedFirstName);
 
+    useEffect(() => {
+        if (user && user.firstName) {
+            setUserFirstName(user.firstName);
+        }
+    }, [user]);
+
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!user) {
+        return <div>No user data available</div>;
     }
 
     return (
@@ -22,12 +32,12 @@ const storedUserData = JSON.parse(localStorage.getItem('user'));
                 <h2 className="mb-5 text-center">My Profile</h2>
                 <div className="row justify-content-center user-info">
                     <div className="col-12 col-md-4 text-center">
-                        {defaultAvatar && defaultAvatar ? (
+                        {defaultAvatar ? (
                             <figure className="avatar avatar-profile">
                                 <img
                                     className="rounded-circle img-fluid"
-                                    src={ defaultAvatar }
-                                    alt= "Default Avatar"
+                                    src={defaultAvatar}
+                                    alt="Default Avatar"
                                 />
                             </figure>
                         ) : (
@@ -52,7 +62,6 @@ const storedUserData = JSON.parse(localStorage.getItem('user'));
                                 <Link to="/userForgetPassword" className="btn btn-primary btn-block mt-3">
                                     Change Password
                                 </Link>
-                                
                             </div>
                         </div>
                     </div>
@@ -60,6 +69,6 @@ const storedUserData = JSON.parse(localStorage.getItem('user'));
             </div>
         </Fragment>
     );
-}
+};
 
 export default UserProfile;

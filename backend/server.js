@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const sqlite = require('better-sqlite3');
 const fs = require('fs');
 const cors = require('cors');
@@ -13,10 +15,33 @@ const dbPath = '../src/db/database.db'; // database
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(cors());
 
 // Initialize SQLite database
 const db = initDatabase(dbPath);
 console.log('db', db);
+
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir);
+}
+
+// Set up storage engine for multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload = multer({ storage });
+
+// Ensure uploads directory exists
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
 
 function initDatabase(dbPath) {
   // Check if the database file exists
@@ -321,8 +346,18 @@ app.delete('/api/products/:id', (req, res) => {
   }
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-
+// API endpoint for uploading profile picture
+app.post('/api/user/uploadProfilePicture', upload.single('profilePicture'), (req, res) => {
+  const { userId } = req.body;
+  if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+  }
+  const profilePicturePath = req.file.path;
+  res.status(200).json({ message: 'Profile picture updated successfully', profilePicturePath });
+});
 
 // Start the server
 app.listen(PORT, () => {
