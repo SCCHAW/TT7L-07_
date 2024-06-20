@@ -45,10 +45,7 @@ const UsersProductDetails=()=>{
         <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
         <div className="d-flex justify-content-between">
         <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-            <div>
-                <button type="button" className="btn btn-primary me-2" style={{ width:"100%", height:48}}  onClick={handleAddToCart}>Add To Cart</button>
-                
-            </div>
+            
         </div>
     </div>
 </div>
