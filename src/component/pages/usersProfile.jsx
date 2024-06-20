@@ -56,9 +56,6 @@ const UserProfile = () => {
                                 <h4>Email Address</h4>
                                 <p>{user.email || 'Not available'}</p>
 
-                                <h4>Joined on</h4>
-                                <p>{user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Not available'}</p>
-
                                 <Link to="/userForgetPassword" className="btn btn-primary btn-block mt-3">
                                     Change Password
                                 </Link>
