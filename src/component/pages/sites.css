@@ -1,17 +1,16 @@
-
 .combined-sites-container {
-    display: flex;
-    flex-direction: column; /* Change to 'row' to place them side by side */
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .iframe-container {
-    margin: 10px 0;
-    width: 50%; /* Adjust as needed */
-  }
-  
-  iframe {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+  display: flex;
+  flex-direction: column; /* Change to 'row' to place them side by side */
+  align-items: center;
+  margin: 20px 0;
+}
+
+.iframe-container {
+  margin: 10px 0;
+  width: 50%; /* Adjust as needed */
+}
+
+iframe {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
