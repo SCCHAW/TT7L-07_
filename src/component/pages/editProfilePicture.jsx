@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUserProfilePicture } from '../../redux/userActions';
 
 const EditProfilePicture = () => {
+    const dispatch = useDispatch();
     const { user } = useSelector(state => state.auth);
     const [selectedFile, setSelectedFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -38,6 +40,9 @@ const EditProfilePicture = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+
+            // Assuming the response.data contains the updated user object with profilePicture URL
+            dispatch(updateUserProfilePicture(response.data.profilePicture));
             setUploadStatus('Upload successful');
             console.log(response.data);
         } catch (error) {

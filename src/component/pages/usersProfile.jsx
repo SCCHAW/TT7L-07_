@@ -6,7 +6,6 @@ import { defaultAvatar } from '../assets';
 
 const UserProfile = () => {
     const { user, loading } = useSelector(state => state.auth);
-
     const storedUserData = JSON.parse(localStorage.getItem('user'));
     const storedFirstName = storedUserData ? storedUserData.firstName : '';
     const [userFirstName, setUserFirstName] = useState(storedFirstName);
@@ -32,12 +31,12 @@ const UserProfile = () => {
                 <h2 className="mb-5 text-center">My Profile</h2>
                 <div className="row justify-content-center user-info">
                     <div className="col-12 col-md-4 text-center">
-                        {defaultAvatar ? (
+                        {user.profilePicture ? (
                             <figure className="avatar avatar-profile">
                                 <img
                                     className="rounded-circle img-fluid"
-                                    src={defaultAvatar}
-                                    alt="Default Avatar"
+                                    src={user.profilePicture}
+                                    alt="Profile Avatar"
                                 />
                             </figure>
                         ) : (
