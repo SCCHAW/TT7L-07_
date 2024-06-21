@@ -2,16 +2,16 @@ import React from "react";
 
 const DialogShoppingCart = ({
   handleCloseCartDialog,
-  shoppingCart,
+  // shoppingCart,
   isDialogCartOpen,
-  handleCart,
+  // handleCart,
   handleRemoveCartItem,
   cartItems = [],
-  total_per_quantity,
-  handleIncreaseProduct_Quantity,
-  handleDecreaseProduct_Quantity,
-  totalProductPrice,
-  totalPerProductPrice
+  // total_per_quantity,
+  // handleIncreaseProduct_Quantity,
+  // handleDecreaseProduct_Quantity,
+  // totalProductPrice,
+  // totalPerProductPrice
 }) => {
     
 
@@ -57,8 +57,8 @@ const DialogShoppingCart = ({
               </div>
             </div>
             <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="col-7" style={{ width: 1200}}>
-                <div className="container">
+              <div className="col-7" style={{ width: "100%"}}>
+                <div style={{marginLeft:10, marginRight:10}}>
                   {cartItems.map((item, index) => (
                     <div className="row my-2" key={index}>
                       <div className="col-2">
@@ -66,10 +66,10 @@ const DialogShoppingCart = ({
                           src={item.productImage}
                           alt="Item"
                           style={{
-                            width: "100%",
-                            height: "100%",
+                            width: 100,
+                            height: 100,
                             borderRadius: "100%",
-                            objectFit: 'fill',
+                            objectFit: 'cover',
                             
                           }}
                         />
@@ -77,7 +77,9 @@ const DialogShoppingCart = ({
                       <div className="col-4">
                         <h5>{item.productName}</h5>
                         <p>
-                          {item.productDescription }
+                          {item.productDescription.length > 100
+                            ? item.productDescription.substring(0, 100) + "..."
+                            : item.productDescription}
                         </p>
                       </div>
                       <div
@@ -127,7 +129,7 @@ const DialogShoppingCart = ({
                       <p>Items</p>
                     </div>
                     <div className="col-4">
-                      <p>{`RM${totalPerProductPrice > 0 ?  totalPerProductPrice: 0}`}</p>
+                      <p>{RM${totalPerProductPrice > 0 ?  totalPerProductPrice: 0}}</p>
                     </div>
                   </div>
                   <div className="row my-3">

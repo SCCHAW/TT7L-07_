@@ -23,6 +23,7 @@ const AdminProductDetail =() => {
     productYear: "",
     productCategory: "",
     productImage: "",
+    productLink:"",
   });
 
   const [isSuccessMessage, setIsSuccessMessage] = useState("");
@@ -42,6 +43,7 @@ const AdminProductDetail =() => {
         productYear: product.productYear,
         productCategory: product.productCategory,
         productImage: product.productImage,
+        productLink: product.productLink,
       });
     }
   }, [product]);
@@ -108,7 +110,8 @@ const AdminProductDetail =() => {
         !productFormData.productPrice ||
         !productFormData.productImage ||
         !productFormData.productYear ||
-        !productFormData.productCategory
+        !productFormData.productCategory ||
+        !productFormData.productLink
       ) {
         setIsErrorMessage("All fields are required");
         setIsDialogOpenError(true);
@@ -122,6 +125,8 @@ const AdminProductDetail =() => {
         productYear: productFormData.productYear,
         productCategory: productFormData.productCategory,
         productImage: productFormData.productImage,
+        productLink: productFormData.productLink,
+  
       };
       console.log(product);
 
@@ -163,12 +168,13 @@ const AdminProductDetail =() => {
       {product ? (
         
         <div className="card mb-3" style={{ maxWidth: "50%", margin: "auto" }}>
-    <img style={{ width: "100%", margin: "auto" }} src={product.productImage} className="card-img-top" alt="Product Image" />
+    <img style={{ width: "100%", height:500, objectFit: "contain" , margin: "auto" }} src={product.productImage} className="card-img-top" alt="Product Image" />
     <div className="card-body">
         <h5 className="card-title">{product.productName}</h5>
         <p className="card-text">{product.productDescription}</p>
         <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
+            
 
         <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
         {isDialogModalUpdateOpen ? null : (
