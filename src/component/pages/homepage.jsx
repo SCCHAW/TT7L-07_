@@ -423,6 +423,7 @@ window.open(product.productLink, "_blank")
             </p>
             <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
+            <h6 style={{marginBottom: 10}}>Platform: {product.productPlatform}</h6>
             <div style={{display:"flex" ,flexDirection:"column"}}>
             <button to="#" className="btn btn-primary" style={{marginBottom:10, width:"60%", height:48}} onClick={()=> {handleProductDetails(product)}} >
               Product Details 

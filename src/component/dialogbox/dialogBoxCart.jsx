@@ -82,6 +82,7 @@ const DialogShoppingCart = ({
                             : item.productDescription}
                         </p>
                       </div>
+
                       <div
                         className="col-6 d-flex align-items-center"
                         style={{ justifyContent: "space-between" }}
@@ -100,6 +101,12 @@ const DialogShoppingCart = ({
                             +
                           </button> */}
                         </div>
+
+                       <div className="col-4">
+                        <h5>{item.productPlatform}</h5>
+              
+                      </div>
+
 
                         <div>
                           <span className="ms-3">{`RM${item.totalPrice > 0 ?  item.totalPrice : item.productPrice}`}</span>

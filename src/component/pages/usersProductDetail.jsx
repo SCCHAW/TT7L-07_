@@ -41,6 +41,7 @@ const UsersProductDetails=()=>{
         <p className="card-text">{product.productDescription}</p>
         <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
+            <h6 style={{marginBottom: 10}}>Platform: {product.productPlatform}</h6>
 
         <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
         <div className="d-flex justify-content-between">
