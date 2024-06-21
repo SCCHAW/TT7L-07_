@@ -132,15 +132,15 @@ useEffect(() => {
 }, [productAddedToCart]);
 
 
-// const handleAddToCart = (product) => {
-//   console.log("added to cart--", product);
-//   if (!productAddedToCart.some((item) => item.id === product.id)) {
-//     setProductAddedToCart([...productAddedToCart, { ...product, quantity: 1 }]);
-//   } else {
-//     setIsDialogOpenError(true);
-//     console.log("Product already added to cart");
-//   }
-// };
+const handleAddToCart = (product) => {
+  console.log("added to cart--", product);
+  if (!productAddedToCart.some((item) => item.id === product.id)) {
+    setProductAddedToCart([...productAddedToCart, { ...product, quantity: 1 }]);
+  } else {
+    setIsDialogOpenError(true);
+    console.log("Product already added to cart");
+  }
+};
 
 const handleCloseModalError =()=>{
   setIsDialogOpenError(false)
@@ -401,7 +401,9 @@ const handleDialogTableClose=()=> {
               Product Details 
               
             </button>
-            
+            <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}} onClick={()=> {handleAddToCart(product)}} >
+              Add to compare
+            </button> 
             </div>
           </div>
         </div>

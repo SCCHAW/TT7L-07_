@@ -35,7 +35,7 @@ const DialogShoppingCart = ({
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Shopping Cart
+              Comparison Cart
             </h5>
             <button
               type="button"
@@ -50,14 +50,14 @@ const DialogShoppingCart = ({
               style={{ marginLeft: 20, marginRight: 20 }}
             >
               <div className="" style={{ flex: 1, display: "flex" }}>
-                <h2>Shopping Cart</h2>
+                <h2>Comparison Cart</h2>
               </div>
               <div className=" text-end" style={{ flex: 1 }}>
                 <span>{cartItems.length} items</span>
               </div>
             </div>
             <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="col-7" style={{}}>
+              <div className="col-7" style={{ width: 1200}}>
                 <div className="container">
                   {cartItems.map((item, index) => (
                     <div className="row my-2" key={index}>
@@ -66,8 +66,8 @@ const DialogShoppingCart = ({
                           src={item.productImage}
                           alt="Item"
                           style={{
-                            width: "80%",
-                            height: "80%",
+                            width: "100%",
+                            height: "100%",
                             borderRadius: "100%",
                             objectFit: 'fill',
                             
@@ -77,9 +77,7 @@ const DialogShoppingCart = ({
                       <div className="col-4">
                         <h5>{item.productName}</h5>
                         <p>
-                          {item.productDescription.length > 30
-                            ? item.productDescription.substring(0, 30) + "..."
-                            : item.productDescription}
+                          {item.productDescription }
                         </p>
                       </div>
                       <div
@@ -90,7 +88,7 @@ const DialogShoppingCart = ({
                           className="col-5"
                           style={{ justifyContent: "space-evenly" }}
                         >
-                          <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleDecreaseProduct_Quantity(item, index)}>
+                          {/* <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleDecreaseProduct_Quantity(item, index)}>
                             -
                           </button>
                           <span className="m-2 auto" style={{}}>
@@ -98,7 +96,7 @@ const DialogShoppingCart = ({
                           </span>
                           <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleIncreaseProduct_Quantity(item, index)}>
                             +
-                          </button>
+                          </button> */}
                         </div>
 
                         <div>
@@ -119,7 +117,7 @@ const DialogShoppingCart = ({
                 </div>
               </div>
 
-              <div className="col-4 bg-warning-subtle">
+              {/* <div className="col-4 bg-warning-subtle">
                 <div className="container">
                   <div className="row mb-3">
                     <h3>Summary</h3>
@@ -162,7 +160,7 @@ const DialogShoppingCart = ({
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="modal-footer">
