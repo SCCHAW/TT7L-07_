@@ -62,7 +62,43 @@ const AdminNavHeader = ({
         </div>
 
         <div className="d-flex justify-content-end align-items-end">
-        
+        {navTitle !== 'Admin' && (
+    <div
+    className="cart-container d-flex align-items-center"
+    style={{ display: "flex", marginRight: 30 }}
+  >
+    <a
+      href="#"
+      className="cart-link"
+      onClick={handleCart}
+      style={{
+        flexDirection: "row",
+        display: "flex",
+        position: "relative",
+      }}
+    >
+      <i className="fas fa-shopping-cart"></i>{" "}
+      <img
+        src={cart}
+        alt="..."
+        style={{ width: 38, height: 38 }}
+      />
+      <span
+        className="badge bg-danger rounded-pill"
+        style={{
+          display: cartItems?.length > 0 ? "inline" : "none",
+          position: "absolute",
+          top: "-4px",
+          right: "-10px",
+          fontSize: "0.7rem",
+          padding: "0.40rem 0.5rem",
+        }}
+      >
+        {cartItems?.length}
+      </span>
+    </a>
+  </div>
+          )}
 
           {navTitle === "Admin" && viewAllProduct === "View All Product" && (
             <select
@@ -166,7 +202,16 @@ const AdminNavHeader = ({
                 </a>
               </li>
 
-              
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href="#"
+                  onClick={handleCart}
+                  style={{ color: "black" }}
+                >
+                  {navTitle !== "Admin" ? "Comparison Cart" : null}
+                </a>
+              </li>
               <li className="nav-item">
                 <a
                   className="nav-link"
@@ -178,7 +223,17 @@ const AdminNavHeader = ({
                 </a>
               </li>
             </ul>
-           
+            {/* <form className="d-flex mt-3" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button className="btn btn-success" type="submit">
+                Search
+              </button>
+            </form> */}
           </div>
         </div>
       </div>
