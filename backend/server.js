@@ -18,6 +18,25 @@ app.use(express.json());
 const db = initDatabase(dbPath);
 console.log('db', db);
 
+// Function to check if a column exists
+function columnExists(db, tableName, columnName) {
+  const stmt = db.prepare(`
+    SELECT COUNT(*)
+    FROM pragma_table_info('${tableName}')
+    WHERE name = '${columnName}'
+  `);
+  const result = stmt.get();
+  return result['COUNT(*)'] > 0;
+}
+
+// Add column if it doesn't exist
+const tableName = 'products';
+const columnName = 'productLink';
+
+if (!columnExists(db, tableName, columnName)) {
+  db.prepare(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} TEXT`).run();
+}
+
 function initDatabase(dbPath) {
   // Check if the database file exists
   if (!fs.existsSync(dbPath)) {
@@ -39,7 +58,8 @@ function initDatabase(dbPath) {
         productPrice REAL NOT NULL,
         productYear INTEGER NOT NULL,
         productCategory TEXT NOT NULL,
-        productImage TEXT
+        productImage TEXT,
+        productLink TEXT
       );
       CREATE TABLE IF NOT EXISTS password_resets (
         email TEXT NOT NULL,
@@ -80,7 +100,8 @@ app.use((req, res, next) => {
         productPrice REAL NOT NULL,
         productYear INTEGER NOT NULL,
         productCategory TEXT NOT NULL,
-        productImage TEXT
+        productImage TEXT,
+        productLink TEXT
       );
       CREATE TABLE IF NOT EXISTS password_resets (
         email TEXT NOT NULL,
@@ -261,17 +282,17 @@ app.get('/api/products/:id', (req, res) => {
 
 // create product endpoint
 app.post('/api/products', (req, res) => {
-  const { productName, productDescription, productPrice, productYear, productCategory, productImage } = req.body;
-  if (!productName || !productDescription || !productPrice || !productYear || !productCategory) {
+  const { productName, productDescription, productPrice, productYear, productCategory, productImage, productLink } = req.body;
+  if (!productName || !productDescription || !productPrice || !productYear || !productCategory || !productLink ) {
     return res.status(400).json({ error: 'All fields except productImage are required' });
   }
 
   const sql = `
-    INSERT INTO products (productName, productDescription, productPrice, productYear, productCategory, productImage)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO products (productName, productDescription, productPrice, productYear, productCategory, productImage, productLink)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
   try {
-    const result = db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage);
+    const result = db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, productLink);
     res.status(201).json({ message: 'Product created successfully', productId: result.lastInsertRowid });
   } catch (error) {
     console.error('Error inserting product into database:', error);
@@ -279,21 +300,22 @@ app.post('/api/products', (req, res) => {
   }
 });
 
+
 // Update product endpoint
 app.put('/api/updateProduct/:id', (req, res) => {
   const { id } = req.params;
-  const { productName, productDescription, productPrice, productYear, productCategory, productImage } = req.body;
-  if (!productName || !productDescription || !productPrice || !productYear || !productCategory) {
+  const { productName, productDescription, productPrice, productYear, productCategory, productImage, productLink } = req.body;
+  if (!productName || !productDescription || !productPrice || !productYear || !productCategory || !productLink) {
     return res.status(400).json({ error: 'All fields except productImage are required' });
   }
 
   const sql = `
     UPDATE products
-    SET productName = ?, productDescription = ?, productPrice = ?, productYear = ?, productCategory = ?, productImage = ?
+    SET productName = ?, productDescription = ?, productPrice = ?, productYear = ?, productCategory = ?, productImage = ?, productLink = ?
     WHERE id = ?
   `;
   try {
-    db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, id);
+    db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, id);
     res.status(200).json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error('Error updating product in database:', error);

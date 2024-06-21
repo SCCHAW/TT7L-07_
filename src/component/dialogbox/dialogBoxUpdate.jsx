@@ -141,6 +141,22 @@ const DialogBoxUpdate = ({
                     required
                   />
                 </div>
+
+                <div className="mb-3">
+                  <label htmlFor="productLink" className="form-label">
+                    Product Link
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="productLink"
+                    placeholder="Enter product URL"
+                    name="productLink"
+                    value={productFormData.productLink}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
            
               </form>
             </div>

@@ -44,6 +44,13 @@ const Homepage = () => {
   }, []);
 
   useEffect(() => {
+    if (productAddedToCart.length <= 0){
+    handleCloseCartDialog()
+    }
+  }, [productAddedToCart]);
+
+
+  useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     if (storedUser) {
       dispatch(loginSuccess(storedUser)); // Restore user data from Local Storage to Redux store
@@ -147,8 +154,8 @@ const handleCloseModalError =()=>{
 }
 
 const handleRemoveCartItem = (productToRemove) => {
-  const updatedCart = productAddedToCart.filter(item => item !== productToRemove);
-  setProductAddedToCart(updatedCart);
+    const updatedCart = productAddedToCart.filter(item => item !== productToRemove);
+    setProductAddedToCart(updatedCart);
 };
 
 const handleIncreaseProduct_Quantity = (item) => {
@@ -209,6 +216,10 @@ const handleComparePrice = (product) => {
 
 const handleDialogTableClose=()=> {
   setIsDialogTableOpen(false)
+}
+
+const handleProductLink = (product) =>{
+window.open(product.productLink, "_blank")
 }
 
     return (
@@ -367,7 +378,9 @@ const handleDialogTableClose=()=> {
                       justifyContent: "space-between",
                     }}
                   >
+
                     <h5 className="card-title">{product.productName}</h5>
+                    <div>
                     <span
                       className="badge bg-danger rounded-pill"
                       style={{
@@ -380,6 +393,20 @@ const handleDialogTableClose=()=> {
                       onClick={()=> {handleComparePrice(product)}}
                     >
                       {"Compare Price"}
+                    </span>
+                    </div>
+                    <span
+                      className="badge bg-success rounded-pill"
+                      style={{
+                        display: "inline",
+                        position: "absolute",
+                        top: "45px",
+                        right: "-10px",
+                        padding: "0.40rem 0.5rem",
+                      }}
+                      onClick={()=> {handleProductLink(product)}}
+                    >
+                      {"Product Link"}
                     </span>
                   </div>
             <p
@@ -437,10 +464,10 @@ const handleDialogTableClose=()=> {
       handleCloseCartDialog={handleCloseCartDialog}
       cartItems={productAddedToCart}
       handleRemoveCartItem={handleRemoveCartItem}
-      total_per_quantity={total_per_quantity}
-      totalPerProductPrice={totalPerProductPrice}
-      handleIncreaseProduct_Quantity={handleIncreaseProduct_Quantity}
-      handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
+      // total_per_quantity={total_per_quantity}
+      // totalPerProductPrice={totalPerProductPrice}
+      // handleIncreaseProduct_Quantity={handleIncreaseProduct_Quantity}
+      // handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
       
       />
 
