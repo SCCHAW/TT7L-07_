@@ -157,6 +157,23 @@ const DialogBoxUpdate = ({
                     required
                   />
                 </div>
+
+                <div className="mb-3">
+                  <label htmlFor="productPlatform" className="form-label">
+                    Product Platform
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="productPlatform"
+                    placeholder="Enter product platform: Lazada,Shopee,..."
+                    name="productPlatform"
+                    value={productFormData.productPlatform}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+           
            
               </form>
             </div>
