@@ -3,7 +3,7 @@
 import { scrapeAndStoreProduct } from '@/lib/actions';
 import { FormEvent, useState } from 'react'
 
-const isValidAmazonLazadaProductURL = (url: string) => {
+const isValidAmazonLazadaShopeeProductURL = (url: string) => {
   try {
     const parsedURL = new URL(url);
     const hostname = parsedURL.hostname;
@@ -34,8 +34,9 @@ const Searchbar = () => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log('searchPrompt',searchPrompt);
 
-    const isValidLink = isValidAmazonLazadaProductURL(searchPrompt);
+    const isValidLink = isValidAmazonLazadaShopeeProductURL(searchPrompt);
 
     if(!isValidLink) return alert('Please provide a valid Amazon,Shopee or Lazada link')
 
@@ -63,7 +64,6 @@ const Searchbar = () => {
         placeholder="Enter product link"
         className="searchbar-input"
       />
-
       <button 
         type="submit" 
         className="searchbar-btn"

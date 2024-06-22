@@ -4,7 +4,8 @@ import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { extractCurrency, extractDescription, extractPrice } from '../utils';
 
-export async function scrapeAmazonProduct(url: string) {
+export async function scrapeAmazonLazadaShopeeProduct(url: string) {
+  console.log('===>')
   if(!url) return;
 
   // BrightData proxy configuration
@@ -26,6 +27,7 @@ export async function scrapeAmazonProduct(url: string) {
   try {
     // Fetch the product page
     const response = await axios.get(url, options);
+    // console.log('data==>',JSON.stringify(response.data))
     const $ = cheerio.load(response.data);
 
     // Extract the product title
@@ -93,6 +95,6 @@ export async function scrapeAmazonProduct(url: string) {
 
     return data;
   } catch (error: any) {
-    console.log(error);
+    console.log('----->',error);
   }
 }
