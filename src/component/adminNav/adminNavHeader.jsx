@@ -32,6 +32,7 @@ const AdminNavHeader = ({
   const handleLogout = () => {
     dispatch(logoutSuccess());
     localStorage.removeItem("user"); // Remove user data from Local Storage
+    localStorage.removeItem("cart"); // Remove cart data from Local Storage
     navigate("/");
   };
 
@@ -209,7 +210,7 @@ const AdminNavHeader = ({
                   onClick={handleCart}
                   style={{ color: "black" }}
                 >
-                  {navTitle !== "Admin" ? "Cart" : null}
+                  {navTitle !== "Admin" ? "Comparison Cart" : null}
                 </a>
               </li>
               <li className="nav-item">
@@ -223,7 +224,7 @@ const AdminNavHeader = ({
                 </a>
               </li>
             </ul>
-            <form className="d-flex mt-3" role="search">
+            {/* <form className="d-flex mt-3" role="search">
               <input
                 className="form-control me-2"
                 type="search"
@@ -233,7 +234,7 @@ const AdminNavHeader = ({
               <button className="btn btn-success" type="submit">
                 Search
               </button>
-            </form>
+            </form> */}
           </div>
         </div>
       </div>

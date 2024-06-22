@@ -126,6 +126,8 @@ const AdminViewAllProduct = () =>{
               </p>
               <h6>Price: RM {product.productPrice} : 00</h6>
               <h6 style={{ marginBottom: 10 }}>Year: {product.productYear}</h6>
+              <h6 style={{marginBottom: 10}}>Platform: {product.productPlatform}</h6>
+              
             </div>
             <div className="btn-container d-flex justify-content-center">
               <button

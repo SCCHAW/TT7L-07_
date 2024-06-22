@@ -18,6 +18,66 @@ app.use(express.json());
 const db = initDatabase(dbPath);
 console.log('db', db);
 
+// // Function to check if a column exists
+// function columnExists(db, tableName, columnName) {
+//   const stmt = db.prepare(`
+//     SELECT COUNT(*)
+//     FROM pragma_table_info('${tableName}')
+//     WHERE name = '${columnName}'
+//   `);
+//   const result = stmt.get();
+//   return result['COUNT(*)'] > 0;
+// }
+
+// // Add column if it doesn't exist
+// const tableName = 'products';
+// const columnName = 'productLink';
+
+// if (!columnExists(db, tableName, columnName)) {
+//   db.prepare(`ALTER TABLE ${tableName} ADD COLUMN ${columnName} TEXT`).run();
+// }
+
+// Function to check if a column exists
+function columnExists(db, tableName, columnName) {
+  const stmt = db.prepare(`
+    SELECT COUNT(*)
+    FROM pragma_table_info(?)
+    WHERE name = ?
+  `);
+  const result = stmt.get(tableName, columnName);
+  return result['COUNT(*)'] > 0;
+}
+
+// Function to add a column if it doesn't exist
+function addColumnIfNotExists(db, tableName, columnName, columnType) {
+  if (!columnExists(db, tableName, columnName)) {
+    const query = `ALTER TABLE ${escapeIdentifier(tableName)} ADD COLUMN ${escapeIdentifier(columnName)} ${columnType}`;
+    try {
+      db.prepare(query).run();
+    } catch (err) {
+      console.error(`Error adding column ${columnName} to table ${tableName}: ${err.message}`);
+    }
+  }
+}
+
+// Utility function to safely escape SQL identifiers
+function escapeIdentifier(identifier) {
+  return `"${identifier.replace(/"/g, '""')}"`;
+}
+
+// Define table name and columns
+const tableName = 'products';
+const columnsToAdd = [
+  { name: 'productLink', type: 'TEXT' },
+  { name: 'productPlatform', type: 'TEXT' }
+];
+
+// Check and add columns if they do not exist
+columnsToAdd.forEach(column => {
+  addColumnIfNotExists(db, tableName, column.name, column.type);
+});
+
+
 function initDatabase(dbPath) {
   // Check if the database file exists
   if (!fs.existsSync(dbPath)) {
@@ -39,7 +99,9 @@ function initDatabase(dbPath) {
         productPrice REAL NOT NULL,
         productYear INTEGER NOT NULL,
         productCategory TEXT NOT NULL,
-        productImage TEXT
+        productImage TEXT,
+        productLink TEXT,
+        productPlatform TEXT
       );
       CREATE TABLE IF NOT EXISTS password_resets (
         email TEXT NOT NULL,
@@ -80,7 +142,9 @@ app.use((req, res, next) => {
         productPrice REAL NOT NULL,
         productYear INTEGER NOT NULL,
         productCategory TEXT NOT NULL,
-        productImage TEXT
+        productImage TEXT,
+        productLink TEXT,
+        productPlatform TEXT
       );
       CREATE TABLE IF NOT EXISTS password_resets (
         email TEXT NOT NULL,
@@ -261,17 +325,17 @@ app.get('/api/products/:id', (req, res) => {
 
 // create product endpoint
 app.post('/api/products', (req, res) => {
-  const { productName, productDescription, productPrice, productYear, productCategory, productImage } = req.body;
-  if (!productName || !productDescription || !productPrice || !productYear || !productCategory) {
+  const { productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, productPlatform } = req.body;
+  if (!productName || !productDescription || !productPrice || !productYear || !productCategory || !productLink || !productPlatform ) {
     return res.status(400).json({ error: 'All fields except productImage are required' });
   }
 
   const sql = `
-    INSERT INTO products (productName, productDescription, productPrice, productYear, productCategory, productImage)
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO products (productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, productPlatform)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
   try {
-    const result = db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage);
+    const result = db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, productPlatform);
     res.status(201).json({ message: 'Product created successfully', productId: result.lastInsertRowid });
   } catch (error) {
     console.error('Error inserting product into database:', error);
@@ -279,21 +343,22 @@ app.post('/api/products', (req, res) => {
   }
 });
 
+
 // Update product endpoint
 app.put('/api/updateProduct/:id', (req, res) => {
   const { id } = req.params;
-  const { productName, productDescription, productPrice, productYear, productCategory, productImage } = req.body;
-  if (!productName || !productDescription || !productPrice || !productYear || !productCategory) {
+  const { productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, productPlatform } = req.body;
+  if (!productName || !productDescription || !productPrice || !productYear || !productCategory || !productLink || !productPlatform) {
     return res.status(400).json({ error: 'All fields except productImage are required' });
   }
 
   const sql = `
     UPDATE products
-    SET productName = ?, productDescription = ?, productPrice = ?, productYear = ?, productCategory = ?, productImage = ?
+    SET productName = ?, productDescription = ?, productPrice = ?, productYear = ?, productCategory = ?, productImage = ?, productLink = ?, productPlatform = ?
     WHERE id = ?
   `;
   try {
-    db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, id);
+    db.prepare(sql).run(productName, productDescription, productPrice, productYear, productCategory, productImage, productLink, productPlatform, id);
     res.status(200).json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error('Error updating product in database:', error);

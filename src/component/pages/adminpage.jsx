@@ -15,7 +15,9 @@ const Adminpage = () => {
         productPrice: "",
         productYear: "",
         productCategory: "",
-        productImage:""
+        productImage:"",
+        productLink:"",
+        productPlatform:""
       };
       const navigate = useNavigate();
       const dispatch = useDispatch();
@@ -64,7 +66,7 @@ const Adminpage = () => {
         console.log("product");
     
         if(!productFormData.productName || !productFormData.productDescription || !productFormData.productPrice || !productFormData.productImage 
-          || !productFormData.productYear || !productFormData.productCategory
+          || !productFormData.productYear || !productFormData.productCategory || !productFormData.productLink || !productFormData.productPlatform
         ){
           setIsErrorMessage("All fields are required")
           setIsDialogOpenError(true)
@@ -78,6 +80,8 @@ const Adminpage = () => {
           productYear: productFormData.productYear,
           productCategory: productFormData.productCategory,
           productImage: productFormData.productImage,
+          productLink: productFormData.productLink,
+          productPlatform: productFormData.productPlatform,
         };
         console.log(product);
     
@@ -227,6 +231,36 @@ const Adminpage = () => {
                     placeholder="Enter product image URL"
                     name="productImage"
                     value={productFormData.productImage}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="productLink" className="form-label">
+                    Product Link
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="productLink"
+                    placeholder="Enter product URL"
+                    name="productLink"
+                    value={productFormData.productLink}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="productPlatform" className="form-label">
+                    Product Platform
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="productPlatform"
+                    placeholder="Enter product Platform: Lazada,Shopee,..."
+                    name="productPlatform"
+                    value={productFormData.productPlatform}
                     onChange={handleInputChange}
                     required
                   />

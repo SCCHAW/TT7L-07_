@@ -21,6 +21,9 @@ const Homepage = () => {
 
     const navigate = useNavigate()
     const storedUserData = JSON.parse(localStorage.getItem('user'));
+// Retrieve cart items from local storage
+const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+
   const storedFirstName = storedUserData ? storedUserData.firstName : '';
 
   const [userFirstName, setUserFirstName] = useState(storedFirstName);
@@ -42,6 +45,13 @@ const Homepage = () => {
     getAllProduct();
 
   }, []);
+
+  useEffect(() => {
+    if (cartItems.length <= 0){
+    handleCloseCartDialog()
+    }
+  }, [cartItems]);
+
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -123,19 +133,25 @@ const filteredProducts = selectedCategory
 ? allProductData.filter(product => product.productCategory === selectedCategory)
 : allProductData;
 
-useEffect(() => {
-  console.log("product",productAddedToCart)
-  const sumTotalProduct = productAddedToCart.reduce((total, item) => {
-    return total + item.totalPrice;
-  }, 0);
-  setTotalPerProductPrice(sumTotalProduct);
-}, [productAddedToCart]);
+// useEffect(() => {
+//   console.log("product",productAddedToCart)
+//   const sumTotalProduct = productAddedToCart.reduce((total, item) => {
+//     return total + item.totalPrice;
+//   }, 0);
+//   setTotalPerProductPrice(sumTotalProduct);
+// }, [productAddedToCart]);
 
 
 const handleAddToCart = (product) => {
   console.log("added to cart--", product);
-  if (!productAddedToCart.some((item) => item.id === product.id)) {
-    setProductAddedToCart([...productAddedToCart, { ...product, quantity: 1 }]);
+  if (!cartItems.some((item) => item.id === product.id)) {
+    const updatedProductAddedToCart = [
+      ...cartItems,
+      { ...product, quantity: 1 },
+    ];
+    setCartItems(updatedProductAddedToCart);
+    // Store the state in local storage
+    localStorage.setItem('cart', JSON.stringify(updatedProductAddedToCart));
   } else {
     setIsDialogOpenError(true);
     console.log("Product already added to cart");
@@ -147,8 +163,9 @@ const handleCloseModalError =()=>{
 }
 
 const handleRemoveCartItem = (productToRemove) => {
-  const updatedCart = productAddedToCart.filter(item => item !== productToRemove);
-  setProductAddedToCart(updatedCart);
+  const updatedCart = cartItems.filter((item) => item !== productToRemove);
+  setCartItems(updatedCart);
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
 };
 
 const handleIncreaseProduct_Quantity = (item) => {
@@ -211,6 +228,10 @@ const handleDialogTableClose=()=> {
   setIsDialogTableOpen(false)
 }
 
+const handleProductLink = (product) =>{
+window.open(product.productLink, "_blank")
+}
+
     return (
         <div className="text-bg-light p-3">
             <AdminNavHeader 
@@ -218,7 +239,7 @@ const handleDialogTableClose=()=> {
             home={"Home"}
             productCategory={selectedCategory}
             handleInputChange={handleInputChange}
-            cartItems={productAddedToCart}
+            cartItems={cartItems}
             handleCart={handleCart}
             />
             
@@ -367,7 +388,9 @@ const handleDialogTableClose=()=> {
                       justifyContent: "space-between",
                     }}
                   >
+
                     <h5 className="card-title">{product.productName}</h5>
+                    <div>
                     <span
                       className="badge bg-danger rounded-pill"
                       style={{
@@ -380,6 +403,20 @@ const handleDialogTableClose=()=> {
                       onClick={()=> {handleComparePrice(product)}}
                     >
                       {"Compare Price"}
+                    </span>
+                    </div>
+                    <span
+                      className="badge bg-success rounded-pill"
+                      style={{
+                        display: "inline",
+                        position: "absolute",
+                        top: "45px",
+                        right: "-10px",
+                        padding: "0.40rem 0.5rem",
+                      }}
+                      onClick={()=> {handleProductLink(product)}}
+                    >
+                      {"Product Link"}
                     </span>
                   </div>
             <p
@@ -396,13 +433,14 @@ const handleDialogTableClose=()=> {
             </p>
             <h6 >Price: RM {product.productPrice} : 00 </h6>
             <h6 style={{marginBottom: 10}}>Year: {product.productYear}</h6>
+            <h6 style={{marginBottom: 10}}>Platform: {product.productPlatform}</h6>
             <div style={{display:"flex" ,flexDirection:"column"}}>
             <button to="#" className="btn btn-primary" style={{marginBottom:10, width:"60%", height:48}} onClick={()=> {handleProductDetails(product)}} >
               Product Details 
               
             </button>
             <button to="#" className="btn btn-primary" style={{ width:"60%", height:48}} onClick={()=> {handleAddToCart(product)}} >
-              Add to cart
+              Add to compare
             </button> 
             </div>
           </div>
@@ -435,12 +473,12 @@ const handleDialogTableClose=()=> {
       <DialogShoppingCart 
       isDialogCartOpen={showDialogCartModal}
       handleCloseCartDialog={handleCloseCartDialog}
-      cartItems={productAddedToCart}
+      cartItems={cartItems}
       handleRemoveCartItem={handleRemoveCartItem}
-      total_per_quantity={total_per_quantity}
-      totalPerProductPrice={totalPerProductPrice}
-      handleIncreaseProduct_Quantity={handleIncreaseProduct_Quantity}
-      handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
+      // total_per_quantity={total_per_quantity}
+      // totalPerProductPrice={totalPerProductPrice}
+      // handleIncreaseProduct_Quantity={handleIncreaseProduct_Quantity}
+      // handleDecreaseProduct_Quantity={handleDecreaseProduct_Quantity}
       
       />
 

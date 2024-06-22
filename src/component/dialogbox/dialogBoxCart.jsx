@@ -2,16 +2,16 @@ import React from "react";
 
 const DialogShoppingCart = ({
   handleCloseCartDialog,
-  shoppingCart,
+  // shoppingCart,
   isDialogCartOpen,
-  handleCart,
+  // handleCart,
   handleRemoveCartItem,
   cartItems = [],
-  total_per_quantity,
-  handleIncreaseProduct_Quantity,
-  handleDecreaseProduct_Quantity,
-  totalProductPrice,
-  totalPerProductPrice
+  // total_per_quantity,
+  // handleIncreaseProduct_Quantity,
+  // handleDecreaseProduct_Quantity,
+  // totalProductPrice,
+  // totalPerProductPrice
 }) => {
     
 
@@ -35,7 +35,7 @@ const DialogShoppingCart = ({
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="exampleModalLabel">
-              Shopping Cart
+              Comparison Cart
             </h5>
             <button
               type="button"
@@ -50,15 +50,15 @@ const DialogShoppingCart = ({
               style={{ marginLeft: 20, marginRight: 20 }}
             >
               <div className="" style={{ flex: 1, display: "flex" }}>
-                <h2>Shopping Cart</h2>
+                <h2>Comparison Cart</h2>
               </div>
               <div className=" text-end" style={{ flex: 1 }}>
                 <span>{cartItems.length} items</span>
               </div>
             </div>
             <div className="row" style={{ justifyContent: "space-between" }}>
-              <div className="col-7" style={{}}>
-                <div className="container">
+              <div className="col-7" style={{ width: "100%"}}>
+                <div style={{marginLeft:10, marginRight:10}}>
                   {cartItems.map((item, index) => (
                     <div className="row my-2" key={index}>
                       <div className="col-2">
@@ -66,10 +66,10 @@ const DialogShoppingCart = ({
                           src={item.productImage}
                           alt="Item"
                           style={{
-                            width: "80%",
-                            height: "80%",
+                            width: 100,
+                            height: 100,
                             borderRadius: "100%",
-                            objectFit: 'fill',
+                            objectFit: 'cover',
                             
                           }}
                         />
@@ -77,11 +77,12 @@ const DialogShoppingCart = ({
                       <div className="col-4">
                         <h5>{item.productName}</h5>
                         <p>
-                          {item.productDescription.length > 30
-                            ? item.productDescription.substring(0, 30) + "..."
+                          {item.productDescription.length > 100
+                            ? item.productDescription.substring(0, 100) + "..."
                             : item.productDescription}
                         </p>
                       </div>
+
                       <div
                         className="col-6 d-flex align-items-center"
                         style={{ justifyContent: "space-between" }}
@@ -90,7 +91,7 @@ const DialogShoppingCart = ({
                           className="col-5"
                           style={{ justifyContent: "space-evenly" }}
                         >
-                          <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleDecreaseProduct_Quantity(item, index)}>
+                          {/* <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleDecreaseProduct_Quantity(item, index)}>
                             -
                           </button>
                           <span className="m-2 auto" style={{}}>
@@ -98,8 +99,14 @@ const DialogShoppingCart = ({
                           </span>
                           <button className="btn btn-outline-secondary btn-sm" onClick={()=> handleIncreaseProduct_Quantity(item, index)}>
                             +
-                          </button>
+                          </button> */}
                         </div>
+
+                       <div className="col-4">
+                        <h5>{item.productPlatform}</h5>
+              
+                      </div>
+
 
                         <div>
                           <span className="ms-3">{`RM${item.totalPrice > 0 ?  item.totalPrice : item.productPrice}`}</span>
@@ -119,7 +126,7 @@ const DialogShoppingCart = ({
                 </div>
               </div>
 
-              <div className="col-4 bg-warning-subtle">
+              {/* <div className="col-4 bg-warning-subtle">
                 <div className="container">
                   <div className="row mb-3">
                     <h3>Summary</h3>
@@ -129,7 +136,7 @@ const DialogShoppingCart = ({
                       <p>Items</p>
                     </div>
                     <div className="col-4">
-                      <p>{`RM${totalPerProductPrice > 0 ?  totalPerProductPrice: 0}`}</p>
+                      <p>{RM${totalPerProductPrice > 0 ?  totalPerProductPrice: 0}}</p>
                     </div>
                   </div>
                   <div className="row my-3">
@@ -162,7 +169,7 @@ const DialogShoppingCart = ({
                     </button>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="modal-footer">
