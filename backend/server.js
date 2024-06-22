@@ -378,6 +378,50 @@ app.delete('/api/products/:id', (req, res) => {
   }
 });
 
+// Define API endpoint to fetch current user
+app.get('/api/current-user/:id', async (req, res) => {
+
+  const id = req.params.id;
+  
+  // Query the database for the user with the provided id
+  const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id);
+  
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+  
+  
+  // Return user details
+  res.status(200).json({
+    userId: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    profileImage: user.profileImage
+  });
+});
+
+app.put('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  const { firstName, lastName } = req.body;
+  if (!firstName || !lastName ) {
+    return res.status(400).json({ error: 'All fields except profileImage are required' });
+  }
+
+  const sql = `
+    UPDATE users
+    SET firstName = ?, lastName = ? 
+    WHERE id = ?
+  `;
+  try {
+    db.prepare(sql).run(firstName, lastName, id);
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile in database:', error);
+    res.status(500).json({ error: 'An unexpected error occurred' });
+  }
+});
+
 
 
 

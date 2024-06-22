@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { defaultAvatar } from '../assets';
 import DialogShoppingCart from '../dialogbox/dialogBoxCart';
+import axios from 'axios';
 
 const UserProfile = () => {
    
@@ -17,8 +18,27 @@ console.log("xxx", storedUserData)
     const [userFirstName, setUserFirstName] = useState(storedFirstName);
 
     const [showDialogCartModal, setShowDialogCartModal] = useState(false);
+    const [currentUser, setCurrentUser]= useState([])
 
-   
+    useEffect(() => {
+        const getCurrentUser = async () => {
+          try {
+            const response = await axios.get(`http://localhost:3000/api/current-user/${storedUserData.userId}`,{
+                headers: {
+                    "Content-Type": "application/json",
+                    // Add any authentication headers here if required
+                  },
+            });
+           
+            setCurrentUser(response.data)
+            console.log('response.data', response.data);
+          } catch (error) {
+            console.error('Error fetching current user:', error);
+            // Handle error as needed
+          }
+        };
+        getCurrentUser();
+      }, []);
 
     useEffect(() => {
         if (cartItems.length <= 0){
@@ -65,7 +85,7 @@ console.log("xxx", storedUserData)
                         ) : (
                             <div className="placeholder-avatar">No avatar available</div>
                         )}
-                        <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-3">
+                        <Link to="/usersUpdateProfile" id="edit_profile" className="btn btn-primary btn-block my-3">
                             Edit Profile
                         </Link>
                     </div>
@@ -73,13 +93,13 @@ console.log("xxx", storedUserData)
                         <div className="card">
                             <div className="card-body">
                                 <h4>Full Name</h4>
-                                <p>{userFirstName || 'Not available'}</p>
+                                <p>{currentUser.firstName + " " + currentUser.lastName|| "Not available"}</p>
 
                                 <h4>Email Address</h4>
-                                <p>{storedUserData.email || 'Not available'}</p>
+                                <p>{currentUser.email || 'Not available'}</p>
 
-                                <h4>Joined on</h4>
-                                <p>{storedUserData.createdAt ? String(storedUserData.createdAt).substring(0, 10) : 'Not available'}</p>
+                                {/* <h4>Joined on</h4>
+                                <p>{storedUserData.createdAt ? String(storedUserData.createdAt).substring(0, 10) : 'Not available'}</p> */}
 
                                 
                                 <Link to="/userForgetPassword" className="btn btn-primary btn-block mt-3">
