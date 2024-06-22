@@ -21,7 +21,7 @@ const Navbar = () => {
           />
 
           <p className='nav-logo'>
-            Price<span className='text-primary'>Wise</span>
+            <span>Treasurehunt</span>
           </p>
         </Link>
         <div className='flex items-center gap-5'>

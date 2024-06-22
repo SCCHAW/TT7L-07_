@@ -17,11 +17,11 @@ const Home = () => {
                  />
             </p>
             <h1 className="head-text">
-              Unleash the power of
-              <span className="text-primary"> Pricewie </span>
+              Find the treasure in
+              <span className="text-primary"> Treasurehunt </span>
             </h1>
             <p className="mt-6">
-              Powwerful, self-serve product and growth analytics to help you convert, engage, and retain more.
+              Explore the price that is most suitable to you!
             </p>
 
             <Searchbar />

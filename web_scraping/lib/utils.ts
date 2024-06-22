@@ -36,13 +36,16 @@ export function extractCurrency(element: any) {
   return currencyText ? currencyText : "";
 }
 
-// Extracts description from two possible elements from amazon
+// Extracts description from two possible elements from amazon, lazada and shopee
 export function extractDescription($: any) {
   // these are possible elements holding description of the product
   const selectors = [
     ".a-unordered-list .a-list-item",
     ".a-expander-content p",
-    // Add more selectors here if needed
+    //Lazada
+    "pdp-mod-specification",
+    // Shopee
+    "QN2lPu",
   ];
 
   for (const selector of selectors) {

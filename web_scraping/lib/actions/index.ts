@@ -3,23 +3,28 @@
 import { revalidatePath } from "next/cache";
 import Product from "../models/product.model";
 import { connectToDB } from "../mongoose";
-import { scrapeAmazonProduct } from "../scraper";
+import { scrapeAmazonLazadaShopeeProduct } from "../scraper";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types";
 
 export async function scrapeAndStoreProduct(productUrl: string) {
+  console.log('scrp')
   if(!productUrl) return;
 
   try {
+    
     connectToDB();
 
-    const scrapedProduct = await scrapeAmazonProduct(productUrl);
+    const scrapedProduct = await scrapeAmazonLazadaShopeeProduct(productUrl);
+  console.log('scrp finished',JSON.stringify(scrapedProduct))
+
 
     if(!scrapedProduct) return;
 
     let product = scrapedProduct;
 
     const existingProduct = await Product.findOne({ url: scrapedProduct.url });
+    console.log('existingProduct',existingProduct)
 
     if(existingProduct) {
       const updatedPriceHistory: any = [
@@ -41,9 +46,12 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       product,
       { upsert: true, new: true }
     );
+    console.log('newProduct=>',newProduct)
+
 
     revalidatePath(`/products/${newProduct._id}`);
   } catch (error: any) {
+    console.log('eorrr',error)
     throw new Error(`Failed to create/update product: ${error.message}`)
   }
 }
