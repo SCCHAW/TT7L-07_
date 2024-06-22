@@ -28,13 +28,14 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Set up storage engine for multer
 const storage = multer.diskStorage({
-   destination: (req, file, cb) => {
+  destination: (req, file, cb) => {
       cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
       cb(null, `${Date.now()}-${file.originalname}`);
   }
 });
+
 const upload = multer({ storage });
 
 // Ensure uploads directory exists
@@ -55,7 +56,6 @@ function initDatabase(dbPath) {
         lastName TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        profilePicture TEXT,
         createAt TEXT NOT NULL DEFAULT (datetime('now'))
       );
       CREATE TABLE IF NOT EXISTS products (
@@ -98,8 +98,6 @@ app.use((req, res, next) => {
         lastName TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        profilePicture TEXT,
-        createdAt TEXT NOT NULL DEFAULT (datetime('now'))  
       );
       CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -345,30 +343,8 @@ app.delete('/api/products/:id', (req, res) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// API endpoint for uploading profile picture
-app.post('/api/user/uploadProfilePicture', upload.single('profilePicture'), (req, res) => {
-  const { userId } = req.body;
-  if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
-  }
-
-  const profilePicturePath = req.file.path;
-  
-  // Update the user's profile picture in the database
-  const sql = 'UPDATE users SET profilePicture = ? WHERE id = ?';
-  try {
-    db.prepare(sql).run(profilePicturePath, userId);
-    res.status(200).json({ message: 'Profile picture updated successfully', profilePicturePath });
-  } catch (error) {
-    console.error('Error updating profile picture in database:', error);
-    res.status(500).json({ error: 'An unexpected error occurred' });
-  }
-});
-
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
 // Start the server
 app.listen(PORT, () => {
+
   console.log(`Server is running on http://localhost:${PORT}`);
 });

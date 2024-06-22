@@ -6,6 +6,7 @@ import { defaultAvatar } from '../assets';
 
 const UserProfile = () => {
     const { user, loading } = useSelector(state => state.auth);
+    
     const storedUserData = JSON.parse(localStorage.getItem('user'));
     const storedFirstName = storedUserData ? storedUserData.firstName : '';
     const [userFirstName, setUserFirstName] = useState(storedFirstName);
@@ -25,18 +26,18 @@ const UserProfile = () => {
     }
 
     return (
-        <Fragment>
-            <AdminNavHeader navTitle={userFirstName} />
-            <div className="container mt-5">
-                <h2 className="mb-5 text-center">My Profile</h2>
-                <div className="row justify-content-center user-info">
-                    <div className="col-12 col-md-4 text-center">
-                        {user.profilePicture ? (
+            <Fragment>
+                <AdminNavHeader navTitle={userFirstName} />
+                <div className="container mt-5">
+                    <h2 className="mb-5 text-center">My Profile</h2>
+                    <div className="row justify-content-center user-info">
+                        <div className="col-12 col-md-4 text-center">
+                        {defaultAvatar ? (
                             <figure className="avatar avatar-profile">
                                 <img
                                     className="rounded-circle img-fluid"
-                                    src={user.profilePicture}
-                                    alt="Profile Avatar"
+                                    src={defaultAvatar}
+                                    alt="Default Avatar"
                                 />
                             </figure>
                         ) : (
