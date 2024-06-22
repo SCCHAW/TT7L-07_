@@ -10,6 +10,7 @@ import UsersProductDetails from "../component/pages/usersProductDetail";
 import UserProfile from "../component/pages/usersProfile";
 import UserForgetPassword from "../component/pages/userForgetPassword";
 import UserResetPassword from "../component/pages/userResetPassword";
+import IndexUserUpdateProfile from "../component/pages/usersUpdateProfile";
 
 export const RootNavigation = () => {
     return (
@@ -24,6 +25,7 @@ export const RootNavigation = () => {
           <Route exact path="/usersProfile" element={ <UserProfile/>} />
           <Route exact path="/userForgetPassword" element={ <UserForgetPassword/> } />
           <Route exact path="/reset-password/:token" element={ <UserResetPassword/> } />
+          <Route exact path="/usersUpdateProfile" element={ <IndexUserUpdateProfile/>} />
         </Routes>
       </BrowserRouter>
    );

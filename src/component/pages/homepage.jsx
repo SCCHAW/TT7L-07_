@@ -11,7 +11,7 @@ import axios from "axios";
 import DialogBoxError from "../dialogbox/dialogError";
 import DialogShoppingCart from "../dialogbox/dialogBoxCart";
 import ProductComparisonModal from "../dialogbox/dialogBoxTable";
-import Sites from "./sites";
+// import Sites from "./sites";
 
 
 
@@ -355,7 +355,7 @@ window.open(product.productLink, "_blank")
   </div>
 </div>
 
-<Sites />
+{/* <Sites /> */}
 
 <div
         style={{
