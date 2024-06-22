@@ -21,6 +21,9 @@ const Homepage = () => {
 
     const navigate = useNavigate()
     const storedUserData = JSON.parse(localStorage.getItem('user'));
+// Retrieve cart items from local storage
+const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+
   const storedFirstName = storedUserData ? storedUserData.firstName : '';
 
   const [userFirstName, setUserFirstName] = useState(storedFirstName);
@@ -44,10 +47,10 @@ const Homepage = () => {
   }, []);
 
   useEffect(() => {
-    if (productAddedToCart.length <= 0){
+    if (cartItems.length <= 0){
     handleCloseCartDialog()
     }
-  }, [productAddedToCart]);
+  }, [cartItems]);
 
 
   useEffect(() => {
@@ -130,19 +133,25 @@ const filteredProducts = selectedCategory
 ? allProductData.filter(product => product.productCategory === selectedCategory)
 : allProductData;
 
-useEffect(() => {
-  console.log("product",productAddedToCart)
-  const sumTotalProduct = productAddedToCart.reduce((total, item) => {
-    return total + item.totalPrice;
-  }, 0);
-  setTotalPerProductPrice(sumTotalProduct);
-}, [productAddedToCart]);
+// useEffect(() => {
+//   console.log("product",productAddedToCart)
+//   const sumTotalProduct = productAddedToCart.reduce((total, item) => {
+//     return total + item.totalPrice;
+//   }, 0);
+//   setTotalPerProductPrice(sumTotalProduct);
+// }, [productAddedToCart]);
 
 
 const handleAddToCart = (product) => {
   console.log("added to cart--", product);
-  if (!productAddedToCart.some((item) => item.id === product.id)) {
-    setProductAddedToCart([...productAddedToCart, { ...product, quantity: 1 }]);
+  if (!cartItems.some((item) => item.id === product.id)) {
+    const updatedProductAddedToCart = [
+      ...cartItems,
+      { ...product, quantity: 1 },
+    ];
+    setCartItems(updatedProductAddedToCart);
+    // Store the state in local storage
+    localStorage.setItem('cart', JSON.stringify(updatedProductAddedToCart));
   } else {
     setIsDialogOpenError(true);
     console.log("Product already added to cart");
@@ -154,8 +163,9 @@ const handleCloseModalError =()=>{
 }
 
 const handleRemoveCartItem = (productToRemove) => {
-    const updatedCart = productAddedToCart.filter(item => item !== productToRemove);
-    setProductAddedToCart(updatedCart);
+  const updatedCart = cartItems.filter((item) => item !== productToRemove);
+  setCartItems(updatedCart);
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
 };
 
 const handleIncreaseProduct_Quantity = (item) => {
@@ -229,7 +239,7 @@ window.open(product.productLink, "_blank")
             home={"Home"}
             productCategory={selectedCategory}
             handleInputChange={handleInputChange}
-            cartItems={productAddedToCart}
+            cartItems={cartItems}
             handleCart={handleCart}
             />
             
@@ -463,7 +473,7 @@ window.open(product.productLink, "_blank")
       <DialogShoppingCart 
       isDialogCartOpen={showDialogCartModal}
       handleCloseCartDialog={handleCloseCartDialog}
-      cartItems={productAddedToCart}
+      cartItems={cartItems}
       handleRemoveCartItem={handleRemoveCartItem}
       // total_per_quantity={total_per_quantity}
       // totalPerProductPrice={totalPerProductPrice}

@@ -32,6 +32,7 @@ const AdminNavHeader = ({
   const handleLogout = () => {
     dispatch(logoutSuccess());
     localStorage.removeItem("user"); // Remove user data from Local Storage
+    localStorage.removeItem("cart"); // Remove cart data from Local Storage
     navigate("/");
   };
 
